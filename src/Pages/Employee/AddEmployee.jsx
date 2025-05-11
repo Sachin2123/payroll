@@ -3,19 +3,19 @@ import { Box, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 
-const Payroll = () => {
+const AddEmployee = () => {
   const navigate = useNavigate();
   return (
     <Box sx={{}}>
       <Paper elevation={3} sx={{ height: "85vh", overflowY: "auto" }}>
         {" "}
         <Box sx={{ display: "flex", p: 2 }}>
-          <HomeIcon onClick={() => navigate("/")} />
-          <Typography sx={{ ml: 1, fontSize: "18px" }}>Payroll</Typography>
+          {/* <HomeIcon onClick={() => navigate("/")} /> */}
+          <Typography sx={{ ml: 1, fontSize: "18px" }}>AddEmployee</Typography>
         </Box>
       </Paper>
     </Box>
   );
 };
 
-export default Payroll;
+export default AddEmployee;

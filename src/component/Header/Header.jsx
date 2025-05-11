@@ -9,7 +9,7 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
@@ -167,14 +167,16 @@ export default function PrimarySearchAppBar() {
           >
             {/* <MenuIcon /> */}
           </IconButton>
-          <Typography
+          {/* <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
             Company Logo
-          </Typography>
+          </Typography> */}
+
+          {/* <img src="./CompanyLogo.jpg"></img> */}
           <Box sx={{ ml: 2 }}>
             <Search>
               <SearchIconWrapper>
@@ -188,6 +190,11 @@ export default function PrimarySearchAppBar() {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton size="large" color="inherit">
+              <Badge color="error">
+                <DarkModeIcon />
+              </Badge>
+            </IconButton>
             <IconButton
               size="large"
               aria-label="show 4 new mails"

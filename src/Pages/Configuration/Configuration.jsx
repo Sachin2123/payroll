@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 
-const Payroll = () => {
+const Configuration = () => {
   const navigate = useNavigate();
   return (
     <Box sx={{}}>
@@ -11,11 +11,13 @@ const Payroll = () => {
         {" "}
         <Box sx={{ display: "flex", p: 2 }}>
           <HomeIcon onClick={() => navigate("/")} />
-          <Typography sx={{ ml: 1, fontSize: "18px" }}>Payroll</Typography>
+          <Typography sx={{ ml: 1, fontSize: "18px" }}>
+            Configuration
+          </Typography>
         </Box>
       </Paper>
     </Box>
   );
 };
 
-export default Payroll;
+export default Configuration;
