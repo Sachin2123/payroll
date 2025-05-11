@@ -10,8 +10,10 @@ const AddEmployee = () => {
       <Paper elevation={3} sx={{ height: "85vh", overflowY: "auto" }}>
         {" "}
         <Box sx={{ display: "flex", p: 2 }}>
-          {/* <HomeIcon onClick={() => navigate("/")} /> */}
-          <Typography sx={{ ml: 1, fontSize: "18px" }}>AddEmployee</Typography>
+          <HomeIcon onClick={() => navigate("/")} />
+          <Typography sx={{ ml: 1, fontSize: "18px" }}>
+            Add Employee{" "}
+          </Typography>
         </Box>
       </Paper>
     </Box>

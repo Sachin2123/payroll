@@ -16,25 +16,52 @@ const Employee = () => {
           </Box>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button
-              className="addemployee"
+              className="btn-addemployee"
               onClick={() => navigate("/addemployee")}
-              sx={{ color: "white", background: "red", padding: "8px 14px" }}
+              sx={{
+                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
+                color: "white",
+                background: "red",
+                padding: "8px 14px",
+              }}
             >
               Add Employee
             </Button>
             <Button
-              className="upload"
-              onClick={() => navigate("upload")}
-              sx={{ color: "white", background: "green", padding: "8px 14px" }}
+              className="btn-upload"
+              // onClick={() => navigate("upload")}
+              sx={{
+                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
+                color: "white",
+                background: "green",
+                padding: "8px 14px",
+              }}
             >
               Upload
             </Button>
             <Button
-              className="addemployee"
-              onClick={() => navigate("/export")}
-              sx={{ color: "white", background: "black", padding: "8px 14px" }}
+              className="btn-export"
+              // onClick={() => navigate("/export")}
+              sx={{
+                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
+                color: "white",
+                background: "black",
+                padding: "8px 14px",
+              }}
             >
               Export
+            </Button>
+            <Button
+              className="btn-utilities"
+              // onClick={() => navigate("/export")}
+              sx={{
+                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
+                color: "white",
+                background: "#9b23ea",
+                padding: "8px 14px",
+              }}
+            >
+              Utilities
             </Button>
           </Box>
         </Box>
