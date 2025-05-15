@@ -2,6 +2,7 @@ import Paper from "@mui/material/Paper";
 import { Box, Typography, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
+import Table from "../../component/Tables/Table";
 
 const Employee = () => {
   const navigate = useNavigate();
@@ -64,6 +65,9 @@ const Employee = () => {
               Utilities
             </Button>
           </Box>
+        </Box>
+        <Box sx={{ mt: 8, mb: 1, display: "flex", justifyContent: "center" }}>
+          <Table />
         </Box>
       </Paper>
     </Box>
