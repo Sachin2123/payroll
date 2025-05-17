@@ -1,9 +1,10 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
+import EditIcon from "@mui/icons-material/Edit";
 
 const columns = [
-  { field: "id", headerName: "Employee Code", width: 130 },
+  { icons: <EditIcon />, field: "id", headerName: "Employee Code", width: 130 },
   { field: "firstName", headerName: "First name", width: 130 },
   { field: "lastName", headerName: "Last name", width: 130 },
   {
@@ -61,16 +62,16 @@ const rows = [
   },
   {
     id: "M003",
-    lastName: "Akash",
-    firstName: " Sharma",
+    lastName: "Yadav",
+    firstName: "Pooja",
     age: 45,
     branch: "Lucknow",
     grade: "Spine I",
   },
   {
     id: "M004",
-    lastName: "Stark",
-    firstName: "Arya",
+    lastName: "Nirmal",
+    firstName: "Atul",
     age: 16,
     branch: "Mumbai",
     grade: "Spine III",
@@ -121,7 +122,7 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 export default function DataTable() {
   return (
-    <Paper sx={{ height: 400, width: "95%" }}>
+    <Paper sx={{ height: 500, width: "98%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
