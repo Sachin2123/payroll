@@ -15,12 +15,12 @@ import {
 const Sidebar = () => {
   const navigate = useNavigate();
   const menus = [
-    {
-      name: "Configuration",
-      path: "/configuration",
-      submenu: "",
-      icons: <Settings />,
-    },
+    // {
+    //   name: "Configuration",
+    //   path: "/configuration",
+    //   submenu: "",
+    //   icons: <Settings />,
+    // },
     {
       name: "Employee",
       path: "/employee",
@@ -50,24 +50,24 @@ const Sidebar = () => {
       submenu: "",
       icons: <Banknote />,
     },
-    {
-      name: "Recruitment",
-      path: "/recruitment",
-      submenu: "",
-      icons: <Users />,
-    },
-    {
-      name: "Expense",
-      path: "/Expense",
-      submenu: "",
-      icons: <IndianRupee />,
-    },
-    {
-      name: "PMS",
-      path: "/pms",
-      submenu: "",
-      icons: <EmojiEventsIcon />,
-    },
+    // {
+    //   name: "Recruitment",
+    //   path: "/recruitment",
+    //   submenu: "",
+    //   icons: <Users />,
+    // },
+    // {
+    //   name: "Expense",
+    //   path: "/Expense",
+    //   submenu: "",
+    //   icons: <IndianRupee />,
+    // },
+    // {
+    //   name: "PMS",
+    //   path: "/pms",
+    //   submenu: "",
+    //   icons: <EmojiEventsIcon />,
+    // },
   ];
 
   // console.log(menus[1].submenu[1].name);

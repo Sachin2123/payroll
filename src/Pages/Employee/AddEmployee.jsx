@@ -87,9 +87,14 @@ const AddEmployee = () => {
             alignItems="center"
             sx={{ mr: -9 }}
           >
-            <label style={{ marginRight: "0px" }}>Profile Photo</label>
+            {/* <label style={{ marginRight: "0px" }}>Profile Photo</label> */}
             <Box
-              sx={{ display: "flex", flexDirection: "column", ml: 2, gap: 2 }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                ml: 2,
+                gap: 2,
+              }}
             >
               <img
                 src=""
@@ -176,7 +181,7 @@ const AddEmployee = () => {
         </Box>
         <Divider />
         {/* Second Row */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -269,10 +274,10 @@ const AddEmployee = () => {
               <option value="2">Implementation Engineer</option>
             </select>
           </Box>
-        </Box>
+        </Box> */}
         <Divider />
         {/* Third Row */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -370,7 +375,7 @@ const AddEmployee = () => {
               <option value="2">Implementation Engineer</option>
             </select>
           </Box>
-        </Box>
+        </Box> */}
         <Divider />
         {/* Fourth Row */}
         <Box
@@ -428,7 +433,7 @@ const AddEmployee = () => {
         </Box>
         <Divider />
         {/* Fifth Row */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -436,8 +441,8 @@ const AddEmployee = () => {
             gap: 5,
             justifyContent: "space-between",
           }}
-        >
-          <Box
+        > */}
+        {/* <Box
             display="flex"
             justifyContent="center"
             gap={2}
@@ -458,8 +463,8 @@ const AddEmployee = () => {
               <option value="1">Rest</option>
               <option value="0">Contract</option>
             </select>
-          </Box>
-
+          </Box> */}
+        {/* 
           <Box
             display="flex"
             justifyContent="center"
@@ -471,9 +476,9 @@ const AddEmployee = () => {
               placeholder="Enter Employee Remark"
               size="small"
             ></TextField>
-          </Box>
-          {/* Bank */}
-          {/* <Box
+          </Box> */}
+        {/* Bank */}
+        {/* <Box
             display="flex"
             justifyContent="center"
             gap={2}
@@ -495,11 +500,10 @@ const AddEmployee = () => {
               <option value="1">ICICI</option>
             </select>{" "}
           </Box> */}
-        </Box>
-        <Divider />
+        {/* </Box> */}
         <Divider />
         {/* STATUTORY */}
-        <Box
+        {/* <Box
           sx={{
             p: 2,
             fontSize: "1.5rem",
@@ -508,10 +512,10 @@ const AddEmployee = () => {
           }}
         >
           Statutory
-        </Box>
+        </Box> */}
         <Divider />
         {/* PF Row */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -566,10 +570,10 @@ const AddEmployee = () => {
             <label style={{ fontSize: "14px" }}>PF Join Date</label>
             <TextField type="date" size="small" />{" "}
           </Box>
-        </Box>
-        <Divider />
+        </Box> */}
+        {/* <Divider /> */}
         {/* ESIC Row */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -646,10 +650,10 @@ const AddEmployee = () => {
               <option value="11">11 - No Work</option>
             </select>
           </Box>
-        </Box>
-        <Divider />
+        </Box> */}
+        {/* <Divider /> */}
         {/* PT Details */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -699,10 +703,10 @@ const AddEmployee = () => {
             <label style={{ fontSize: "14px" }}>PT Remark</label>
             <TextField placeholder="Enter Remark" size="small"></TextField>
           </Box>
-        </Box>
-        <Divider />
+        </Box> */}
+        {/* <Divider /> */}
         {/* UAN/PAN Details */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -743,10 +747,10 @@ const AddEmployee = () => {
             <label style={{ fontSize: "14px" }}>UAN Number</label>
             <TextField placeholder="Enter UAN Number" size="small"></TextField>
           </Box>
-        </Box>
-        <Divider />
+        </Box> */}
+        {/* <Divider /> */}
         {/* Bank Details */}
-        <Box
+        {/* <Box
           sx={{
             mt: 0,
             p: 3,
@@ -803,8 +807,25 @@ const AddEmployee = () => {
               size="small"
             ></TextField>
           </Box>
+        </Box> */}
+        {/* Save Button */}
+        <Box
+          sx={{
+            mt: 0,
+            p: 1.5,
+            display: "flex",
+            gap: 5,
+            justifyContent: "center",
+            mt: 12,
+          }}
+        >
+          <Button
+            className="btn-empsave"
+            sx={{ px: 3, py: 1, bgcolor: "#111827", color: "white" }}
+          >
+            Save
+          </Button>
         </Box>
-        <Divider />
       </Paper>
     </Box>
   );
