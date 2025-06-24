@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const config = {
   user: "sa",
   password: "Sachin@123",
-  server: "192.168.0.103",
+  server: "localhost",
   database: "payroll",
   options: {
     trustServerCertificate: true,
@@ -21,9 +21,65 @@ const config = {
 app.get("/", async (req, res) => {
   try {
     await sql.connect(config);
-    res.send("Server connected successfully");
+    res.send("✅ Connected to SQL Server successfully");
   } catch (err) {
-    res.send("Connection Failed", err.msg);
+    console.error("❌ SQL Connection Error:", err);
+    res.status(500).send("❌ Connection failed: " + err.message);
+  }
+});
+
+// Add Employee Master
+
+app.post("/api/addemployee", async (req, res) => {
+  const {
+    Employee_Code,
+    Employee_Name,
+    Birth_Date,
+    Confirmation_Date,
+    Probation_Month,
+    Company_Name,
+    Joining_Date,
+  } = req.body;
+
+  // console.log("Company_Name:- ", Company_Name);
+  try {
+    await sql.connect(config);
+
+    const Created_By = 1;
+    const Created_Time = new Date();
+
+    const result = await sql.query`INSERT INTO EMPLOYEE
+  (Employee_Code,
+  Employee_Name,
+  Birth_Date,
+  Joining_Date,
+  Confirmation_Date,
+  Probation_Month,
+  Created_By,
+  Created_Time,
+  Company_Name
+  )
+  VALUES (${Employee_Code},${Employee_Name},
+  ${Birth_Date},${Joining_Date},${Confirmation_Date},
+  ${Probation_Month},
+  ${Created_By},${Created_Time},${Company_Name})`;
+
+    res.json({ message: "Success" });
+  } catch (err) {
+    console.error(err.message);
+    res.json({ message: "Error in inserting data" });
+  }
+});
+
+// Get Employee Master Details
+app.get("/api/employeemaster", async (req, res) => {
+  try {
+    await sql.connect(config);
+    const result = await sql.query`SELECT * FROM EMPLOYEE`;
+    res.json(result);
+    console.log("result:- ", result.recordsets);
+  } catch (err) {
+    res.send("Error while fetching employee master details", err.message);
   }
 });
 
