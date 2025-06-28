@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Divider, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const AddEmployee = () => {
   const [form, setForm] = useState({
@@ -13,6 +14,10 @@ const AddEmployee = () => {
     Probation_Month: "",
     Company_Name: "",
     Joining_Date: "",
+    Grade: "",
+    Branch: "",
+    Designation: "",
+    Department: "",
   });
   const navigate = useNavigate();
 
@@ -36,7 +41,7 @@ const AddEmployee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(form.Company_Name);
-    // console.log("form data :-", JSON.stringify(form));
+    console.log("form data :-", JSON.stringify(form));
 
     try {
       const res = await fetch("http://localhost:5000/api/addemployee", {
@@ -63,6 +68,18 @@ const AddEmployee = () => {
       alert("Something went wrong. Check console.");
     }
   };
+
+  const fetchCompanyName = async () => {
+    const result = await fetch("http://localhost:5000/api/companydetails");
+    return result.json();
+  };
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: "company",
+    queryFn: fetchCompanyName,
+  });
+
+  console.log("Company Name :- ", data);
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
@@ -231,7 +248,7 @@ const AddEmployee = () => {
           </Box>
         </Box>
         <Divider />
-        {/* Fourth Row */}
+        {/* second Row */}
         <Box
           sx={{
             mt: 0,
@@ -307,6 +324,105 @@ const AddEmployee = () => {
           </Box>
         </Box>
         <Divider />
+        {/* Third Row */}
+        <Box
+          sx={{
+            mt: 0,
+            p: 3,
+            display: "flex",
+            // flexDirection: "column",
+            gap: 2,
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            display="flex"
+            justifyContent="center"
+            gap={2}
+            alignItems="center"
+          >
+            <label style={{ fontSize: "14px" }}>Grade</label>
+            <select
+              name="Grade"
+              value={form.Grade}
+              style={{ padding: "10px 14px", fontSize: "14px", color: "grey" }}
+              onChange={handleChange}
+            >
+              <option disabled value="">
+                Select Grade
+              </option>
+
+              <option value="I">I</option>
+              <option value="II">II</option>
+            </select>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            gap={2}
+            alignItems="center"
+          >
+            <label style={{ fontSize: "14px" }}>Branch</label>
+            <select
+              name="Branch"
+              value={form.Branch}
+              style={{ padding: "10px 14px", fontSize: "14px", color: "grey" }}
+              onChange={handleChange}
+            >
+              <option disabled value="">
+                Select Branch
+              </option>
+
+              <option value="Mumbai">Mumbai</option>
+              <option value="Lucknow">Lucknow</option>
+            </select>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            gap={2}
+            alignItems="center"
+          >
+            <label style={{ fontSize: "14px" }}>Department</label>
+            <select
+              name="Department"
+              value={form.Department}
+              style={{ padding: "10px 14px", fontSize: "14px", color: "grey" }}
+              onChange={handleChange}
+            >
+              <option disabled value="">
+                Select Department
+              </option>
+
+              <option value="Development">Development</option>
+              <option value="SQL">SQL </option>
+            </select>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            gap={2}
+            alignItems="center"
+          >
+            <label style={{ fontSize: "14px" }}>Designation</label>
+            <select
+              name="Designation"
+              value={form.Designation}
+              style={{ padding: "10px 14px", fontSize: "14px", color: "grey" }}
+              onChange={handleChange}
+            >
+              <option disabled value="">
+                Select Designation
+              </option>
+
+              <option value="Assistant Manager">Assistant Manager</option>
+              <option value="Implementation Engineer">
+                Implementation Engineer
+              </option>
+            </select>
+          </Box>
+        </Box>
+        <Divider />
         {/* Save Button */}
         <Box
           sx={{
@@ -314,7 +430,7 @@ const AddEmployee = () => {
             display: "flex",
             gap: 5,
             justifyContent: "center",
-            mt: 12,
+            mt: 1.8,
           }}
         >
           <Button

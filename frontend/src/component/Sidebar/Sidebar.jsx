@@ -1,17 +1,42 @@
 import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import CreateIcon from "@mui/icons-material/Create";
 import { CircleUser, CalendarDays, Banknote, Clock } from "lucide-react";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const menus = [
-    // {
-    //   name: "Configuration",
-    //   path: "/configuration",
-    //   submenu: "",
-    //   icons: <Settings />,
-    // },
+    {
+      name: "Grade",
+      path: "/gradedetails",
+      submenu: "",
+      icons: <CreateIcon />,
+    },
+    {
+      name: "Department",
+      path: "/departmentdetails",
+      submenu: "",
+      icons: <CreateIcon />,
+    },
+    {
+      name: "Designation",
+      path: "/designationdetails",
+      submenu: "",
+      icons: <CreateIcon />,
+    },
+    {
+      name: "Branch",
+      path: "/branchdetails",
+      submenu: "",
+      icons: <CorporateFareIcon />,
+    },
+    {
+      name: "Company",
+      path: "/companydetails",
+      submenu: "",
+      icons: <CorporateFareIcon />,
+    },
     {
       name: "Employee",
       path: "/employee",
@@ -42,6 +67,8 @@ const Sidebar = () => {
       icons: <Banknote />,
     },
   ];
+
+  console.log(menus[0].submenu);
 
   const handleClick = (path) => {
     // console.log(path);
@@ -82,6 +109,15 @@ const Sidebar = () => {
             gap: 1,
           }}
         >
+          {menus[0].submenu ? (
+            <div>
+              {menus[0].submenu.map((submenu, index) => {
+                <div key={submenu.id}>{submenu.name}</div>;
+              })}
+            </div>
+          ) : (
+            ""
+          )}
           {menus.map((menu, id) => {
             return (
               <Button
