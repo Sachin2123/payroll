@@ -42,6 +42,7 @@ app.post("/api/addemployee", async (req, res) => {
   } = req.body;
 
   // console.log("Company_Name:- ", Company_Name);
+  // console.log("req.body:- ", req.body);
   try {
     await sql.connect(config);
 
@@ -68,6 +69,20 @@ app.post("/api/addemployee", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.json({ message: "Error in inserting data" });
+  }
+});
+
+app.get("/api/employeedetails", async (req, res) => {
+  try {
+    sql.connect(config);
+
+    const result = await sql.query`select * from employee`;
+    console.log("Employee Master Details :- ", result.recordset);
+
+    res.json(result.recordset);
+  } catch (err) {
+    console.error("Error while fetching Employee Master Details");
+    res.json("Error while fetching Employee Master Details");
   }
 });
 

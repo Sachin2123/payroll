@@ -7,7 +7,8 @@ import Attendance from "./Pages/Attendance/Attendance";
 import Payroll from "./Pages/Payroll/Payroll";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Configuration from "./Pages/Configuration/Configuration";
-
+import { ErrorFallback } from "./component/Fallback/ErrorFallback";
+import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import {
@@ -22,10 +23,20 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
+    // <ErrorBoundary
+    //   FallbackComponent={ErrorFallback}
+    //   onReset={() => {
+    //     // Optionally reset any state here
+    //     window.location.reload(); // or your custom reset logic
+    //     <div>Set Error Boundary</div>;
+    //   }}
+    // >
+
     <QueryClientProvider client={queryClient}>
       <Router>
         <Box sx={{ display: "flex", height: "100vh" }}>
-          <Sidebar /> {/* Fixed width sidebar on the left */}
+          {/* Fixed width sidebar on the left */}
+          <Sidebar />
           <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
             <Header /> {/* Fixed header on top */}
             <Box sx={{ flexGrow: 1, p: 2, overflowY: "auto" }}>
@@ -43,6 +54,7 @@ function App() {
         </Box>
       </Router>
     </QueryClientProvider>
+    // </ErrorBoundary>
   );
 }
 

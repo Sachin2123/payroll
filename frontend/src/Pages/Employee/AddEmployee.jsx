@@ -35,7 +35,7 @@ const AddEmployee = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // alert(form.Company_Name);
+    // console.log(form.Company_Name);
     // console.log("form data :-", JSON.stringify(form));
 
     try {
@@ -54,7 +54,7 @@ const AddEmployee = () => {
         alert(result.message); // Success message
         setTimeout(() => {
           navigate("/employee");
-        }, 800);
+        }, 300);
       } else {
         alert("Error: " + result.error);
       }
