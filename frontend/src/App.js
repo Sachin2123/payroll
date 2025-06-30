@@ -16,19 +16,20 @@ import AddDesignation from "./Pages/Masters/Designation/AddDesignation";
 import DesignationDetails from "./Pages/Masters/Designation/DesignationDetails";
 import AddGrade from "./Pages/Masters/Grade/AddGrade";
 import GradeDetails from "./Pages/Masters/Grade/GradeDetails";
-import SalaryStructure from "./Pages/Payroll/SalaryStructure";
+import AddSalaryStructure from "./Pages/Payroll/AddSalaryStructure";
 import ProcessSalary from "./Pages/Payroll/ProcessSalary";
 import { ErrorFallback } from "./component/Fallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
+  // useQuery,
+  // useMutation,
+  // useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import SalaryStructureDetails from "./Pages/Payroll/SalaryStructureDetails";
 
 const queryClient = new QueryClient();
 
@@ -74,8 +75,12 @@ function App() {
                   <Route path="/attendance" element={<Attendance />} />
                   <Route path="/payroll" element={<Payroll />} />
                   <Route
-                    path="/salary-structure"
-                    element={<SalaryStructure />}
+                    path="/add-salary-structure"
+                    element={<AddSalaryStructure />}
+                  />
+                  <Route
+                    path="/salary-structure-details"
+                    element={<SalaryStructureDetails />}
                   />
                   <Route path="/process-salary" element={<ProcessSalary />} />
                 </Routes>

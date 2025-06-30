@@ -62,13 +62,13 @@ const Sidebar = () => {
     },
     {
       name: "Payroll",
-      path: "/payroll",
+      path: "/salary-structure-details",
       submenu: "",
       icons: <Banknote />,
     },
   ];
 
-  console.log(menus[0].submenu);
+  // console.log(menus[0].submenu);
 
   const handleClick = (path) => {
     // console.log(path);
@@ -109,7 +109,7 @@ const Sidebar = () => {
             gap: 1,
           }}
         >
-          {menus[0].submenu ? (
+          {/* {menus[0].submenu ? (
             <div>
               {menus[0].submenu.map((submenu, index) => {
                 <div key={submenu.id}>{submenu.name}</div>;
@@ -117,7 +117,7 @@ const Sidebar = () => {
             </div>
           ) : (
             ""
-          )}
+          )} */}
           {menus.map((menu, id) => {
             return (
               <Button

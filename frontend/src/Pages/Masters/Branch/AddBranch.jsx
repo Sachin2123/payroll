@@ -3,7 +3,7 @@ import { Box, Typography, TextField, Divider, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 
 const AddBranch = () => {
   const [form, setForm] = useState({
@@ -20,11 +20,13 @@ const AddBranch = () => {
     });
     // console.log("form data :-", JSON.stringify(form));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form.Branch_Name);
-    console.log("Branch Name :-", JSON.stringify(form));
+
+    if (!form.Branch_Name || form.Branch_Name.trim() === "") {
+      alert("Please fill Branch Name");
+      return;
+    }
 
     try {
       const res = await fetch("http://localhost:5000/api/addbranch", {
@@ -32,14 +34,13 @@ const AddBranch = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form), // Convert JS object to JSON string
+        body: JSON.stringify(form),
       });
 
-      const result = await res.json(); // Read server response
-      //   console.log("result.message:- ", result.message);
+      const result = await res.json();
 
       if (res.ok) {
-        alert(result.message); // Success message
+        alert(result.message);
         setTimeout(() => {
           navigate("/branchdetails");
         }, 300);
@@ -47,7 +48,7 @@ const AddBranch = () => {
         alert("Error: " + result.error);
       }
     } catch (err) {
-      //   console.log("Fetch failed:", err);
+      console.error("Fetch failed:", err);
       alert("Something went wrong. Check console.");
     }
   };

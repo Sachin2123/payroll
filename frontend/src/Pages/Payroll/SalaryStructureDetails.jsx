@@ -9,34 +9,47 @@ import { format } from "date-fns";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-const dateFormat = "dd MMM yyyy";
+const dateFormat = "dd-MMM-yyyy";
 
 const columns = [
   {
     icons: <EditIcon />,
-    field: "Grade_ID",
+    field: "Employee_Code",
     headerName: "Employee Code",
     width: 130,
   },
   {
-    field: "Grade_Name",
+    icons: <EditIcon />,
+    field: "Employee_Name",
+    headerName: "Employee Name",
+    width: 200,
+  },
+  {
+    field: "Basic",
     headerName: "Basic",
-    width: 130,
+    width: 100,
   },
   {
-    field: "Grade_Name",
+    field: "HRA",
     headerName: "HRA",
-    width: 130,
+    width: 100,
   },
   {
-    field: "Grade_Name",
+    field: "Conveyance",
     headerName: "Conveyance",
-    width: 130,
+    width: 100,
   },
   {
-    field: "Grade_Name",
+    field: "Special_Allowance",
     headerName: "Special_Allowance",
     width: 150,
+  },
+  {
+    field: "Effective_From",
+    headerName: "Effective From",
+    width: 110,
+    renderCell: (params) =>
+      params.value ? format(new Date(params.value), dateFormat) : "-",
   },
   {
     field: "Created_By",
@@ -46,29 +59,32 @@ const columns = [
   {
     field: "Created_Time",
     headerName: "Created Time",
-    width: 200,
+    width: 120,
     renderCell: (params) =>
       params.value ? format(new Date(params.value), dateFormat) : "-",
   },
 ];
 
-const fetchGrade = async () => {
-  const result = await fetch("http://localhost:5000/api/gradedetails");
+const fetchSalaryStructrueDetails = async () => {
+  const result = await fetch(
+    "http://localhost:5000/api/salary-structure-details"
+  );
   if (!result.ok) throw new Error("error in fetching grade data");
   // console.log(result);
   return result.json();
 };
 
-const GradeDetails = () => {
+const SalaryStructureDetails = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, data } = useQuery({
-    queryKey: ["grade"],
-    queryFn: fetchGrade,
+    queryKey: ["fetchSalaryStructrueDetails"],
+    queryFn: fetchSalaryStructrueDetails,
   });
 
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
+  console.log(data);
 
   return (
     <Box sx={{}}>
@@ -110,7 +126,9 @@ const GradeDetails = () => {
           {/* <Table /> */}
 
           <DataGrid
-            rows={data ? data.map((row) => ({ ...row, id: row.Grade_ID })) : []}
+            rows={
+              data ? data.map((row) => ({ ...row, id: row.Employee_ID })) : []
+            }
             // rows={data}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
@@ -124,4 +142,4 @@ const GradeDetails = () => {
   );
 };
 
-export default GradeDetails;
+export default SalaryStructureDetails;

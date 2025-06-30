@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import { Box, Typography, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
-import Table from "../../component/Tables/Table";
+// import Table from "../../component/Tables/Table";
 import { useQuery } from "@tanstack/react-query";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
@@ -60,7 +60,7 @@ const columns = [
 const fetchEmployee = async () => {
   const result = await fetch("http://localhost:5000/api/employeedetails");
   if (!result.ok) throw new Error("error in fetching data");
-  // console.log(result);
+  // console.log(result.recordset);
   return result.json();
 };
 
@@ -68,9 +68,11 @@ const Employee = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, data } = useQuery({
-    queryKey: ["employees"],
+    queryKey: ["employeesdetails"],
     queryFn: fetchEmployee,
   });
+
+  console.log(data);
 
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;

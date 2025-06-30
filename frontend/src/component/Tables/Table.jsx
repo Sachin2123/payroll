@@ -64,82 +64,82 @@ const columns = [
   { field: "Company_Name", headerName: "Company Name", width: 130 },
 ];
 
-const rows = [
-  {
-    id: "M001",
-    lastName: "Vishwakarma",
-    firstName: "Sachin",
-    age: 23,
-    branch: "Mumbai",
-    grade: "Spine II",
-    desig: "Assitant Manager",
-  },
-  // {
-  //   id: "M002",
-  //   lastName: "Kumar",
-  //   firstName: "Vinay",
-  //   age: 24,
-  //   branch: "Mumbai",
-  //   grade: "Spine II",
-  //   desig: "Python Developer",
-  // },
-  // {
-  //   id: "M003",
-  //   lastName: "Yadav",
-  //   firstName: "Pooja",
-  //   age: 45,
-  //   branch: "Lucknow",
-  //   grade: "Spine I",
-  // },
-  // {
-  //   id: "M004",
-  //   lastName: "Nirmal",
-  //   firstName: "Atul",
-  //   age: 16,
-  //   branch: "Mumbai",
-  //   grade: "Spine III",
-  // },
-  // {
-  //   id: "M005",
-  //   lastName: "Targaryen",
-  //   firstName: "Daenerys",
-  //   age: null,
-  //   branch: "Mumbai",
-  //   grade: "Spine II",
-  // },
-  // {
-  //   id: "M006",
-  //   lastName: "Melisandre",
-  //   firstName: null,
-  //   age: 150,
-  //   branch: "Mumbai",
-  //   grade: "Spine II",
-  // },
-  // {
-  //   id: 7,
-  //   lastName: "Clifford",
-  //   firstName: "Ferrara",
-  //   age: 44,
-  //   branch: "Mumbai",
-  //   grade: "Spine II",
-  // },
-  // {
-  //   id: 8,
-  //   lastName: "Frances",
-  //   firstName: "Rossini",
-  //   age: 36,
-  //   branch: "Mumbai",
-  //   grade: "Spine II",
-  // },
-  // {
-  //   id: 9,
-  //   lastName: "Roxie",
-  //   firstName: "Harvey",
-  //   age: 65,
-  //   branch: "Mumbai",
-  //   grade: "Spine II",
-  // },
-];
+// const rows = [
+//   {
+//     id: "M001",
+//     lastName: "Vishwakarma",
+//     firstName: "Sachin",
+//     age: 23,
+//     branch: "Mumbai",
+//     grade: "Spine II",
+//     desig: "Assitant Manager",
+//   },
+//   // {
+//   //   id: "M002",
+//   //   lastName: "Kumar",
+//   //   firstName: "Vinay",
+//   //   age: 24,
+//   //   branch: "Mumbai",
+//   //   grade: "Spine II",
+//   //   desig: "Python Developer",
+//   // },
+//   // {
+//   //   id: "M003",
+//   //   lastName: "Yadav",
+//   //   firstName: "Pooja",
+//   //   age: 45,
+//   //   branch: "Lucknow",
+//   //   grade: "Spine I",
+//   // },
+//   // {
+//   //   id: "M004",
+//   //   lastName: "Nirmal",
+//   //   firstName: "Atul",
+//   //   age: 16,
+//   //   branch: "Mumbai",
+//   //   grade: "Spine III",
+//   // },
+//   // {
+//   //   id: "M005",
+//   //   lastName: "Targaryen",
+//   //   firstName: "Daenerys",
+//   //   age: null,
+//   //   branch: "Mumbai",
+//   //   grade: "Spine II",
+//   // },
+//   // {
+//   //   id: "M006",
+//   //   lastName: "Melisandre",
+//   //   firstName: null,
+//   //   age: 150,
+//   //   branch: "Mumbai",
+//   //   grade: "Spine II",
+//   // },
+//   // {
+//   //   id: 7,
+//   //   lastName: "Clifford",
+//   //   firstName: "Ferrara",
+//   //   age: 44,
+//   //   branch: "Mumbai",
+//   //   grade: "Spine II",
+//   // },
+//   // {
+//   //   id: 8,
+//   //   lastName: "Frances",
+//   //   firstName: "Rossini",
+//   //   age: 36,
+//   //   branch: "Mumbai",
+//   //   grade: "Spine II",
+//   // },
+//   // {
+//   //   id: 9,
+//   //   lastName: "Roxie",
+//   //   firstName: "Harvey",
+//   //   age: 65,
+//   //   branch: "Mumbai",
+//   //   grade: "Spine II",
+//   // },
+// ];
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -151,12 +151,12 @@ const fetchEmployee = async () => {
 };
 
 export default function DataTable() {
-  const { data, isLoading, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["Employee"],
     queryFn: fetchEmployee,
   });
 
-  console.log("data:- ", data);
+  // console.log("data:- ", data);
   return (
     <Paper sx={{ height: 500, width: "98%" }}>
       <DataGrid

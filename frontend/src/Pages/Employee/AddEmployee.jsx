@@ -35,13 +35,30 @@ const AddEmployee = () => {
       ...form,
       [e.target.name]: e.target.value,
     });
-    // console.log("form data :-", JSON.stringify(form));
+    console.log("form data :-", JSON.stringify(form));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(form.Company_Name);
-    console.log("form data :-", JSON.stringify(form));
+    // console.log("form data :-", JSON.stringify(form));
+
+    if (
+      !form.Employee_Code ||
+      !form.Employee_Name ||
+      !form.Company_Name ||
+      !form.Grade ||
+      !form.Branch ||
+      !form.Designation ||
+      !form.Department ||
+      !form.Joining_Date ||
+      !form.Probation_Month ||
+      !form.Confirmation_Date ||
+      !form.Birth_Date
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
 
     try {
       const res = await fetch("http://localhost:5000/api/addemployee", {
@@ -74,12 +91,12 @@ const AddEmployee = () => {
     return result.json();
   };
 
-  const { data, error, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: "company",
     queryFn: fetchCompanyName,
   });
 
-  console.log("Company Name :- ", data);
+  // console.log("Company Name :- ", data);
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
@@ -240,10 +257,12 @@ const AddEmployee = () => {
               value={form.Company_Name}
               name="Company_Name"
             >
-              {/* <option value="">Select Company</option> */}
-
-              <option value="1">Beehive Software Pvt Ltd</option>
-              <option value="2">Spine Technologies Pvt Ltd</option>
+              <option selected>Select Company</option>
+              {data?.map((val, index) => (
+                <option key={val.Company_ID} value={val.Company_ID}>
+                  {val.Company_Name}
+                </option>
+              ))}
             </select>
           </Box>
         </Box>
