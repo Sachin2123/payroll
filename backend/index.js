@@ -84,29 +84,32 @@ app.post("/api/addemployee", async (req, res) => {
 
 app.get("/api/employeedetails", async (req, res) => {
   try {
-    sql.connect(config);
+    await sql.connect(config);
 
-    const result = await sql.query`SELECT 
-  e.Employee_Code,
-  e.Employee_ID,
-  e.Employee_Name,
-  e.Joining_Date,
-  e.Birth_Date,
-  e.Department,
-  e.Grade,
-  e.Confirmation_Date,
-  e.Branch,
-  c.Company_Name
-FROM 
-  Employee e
-JOIN 
-  Company c ON e.Company_Name = c.Company_id;`;
-    // console.log("Company Master Details :- ", result.recordset);
+    const result = await sql.query`SELECT
+      e.Employee_Code,
+      e.Employee_ID,
+      e.Employee_Name,
+      e.Joining_Date,
+      e.Birth_Date,
+      e.Department,
+      e.Grade,
+      e.Confirmation_Date,
+      e.Branch,
+      c.Company_Name
+    FROM
+      Employee e
+    JOIN
+      Company c ON e.Company_Name = c.Company_id;`;
+
+    // const result = await sql.query`select e.Employee_Code, e.Employee_ID, e.Employee_Name, e.Joining_Date, e.Department, e.Grade, e.Confirmation_Date,
+    // e.Branch, e.Company_Name from employee as e inner join company as c on `;
+    // console.log("Employee Master Details :- ", result.recordset);
 
     res.json(result.recordset);
   } catch (err) {
-    // console.error("Error while fetching Company Master Details");
-    res.json("Error while fetching Company Master Details");
+    console.error("Error while fetching Company Master Details");
+    res.json("Error while fetching Employee Master Details");
   }
 });
 
@@ -228,6 +231,77 @@ app.get("/api/gradedetails", async (req, res) => {
     res.send(result.recordset);
   } catch (err) {
     res.send({ message: "Error in fetching Grade Master" });
+  }
+});
+
+app.post("/api/adddesignation", async (req, res) => {
+  await sql.connect(config);
+
+  const { Designation_Name } = req.body;
+  // console.log("Designation_Name:- ", Designation_Name);
+  const Created_By = 1;
+  const Created_Time = new Date();
+
+  try {
+    const result =
+      await sql.query`INSERT INTO DESIGNATION (Designation_Name, Created_By,Created_Time) 
+    VALUES (${Designation_Name}, ${Created_By}, ${Created_Time}) `;
+    res.send({ message: "Designation Created Successfully" });
+  } catch (err) {
+    res.send({ message: "Error in inserting Designation Master" });
+  }
+});
+
+app.get("/api/designationdetails", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result = await sql.query`SELECT * FROM DESIGNATION`;
+
+    res.json(result.recordset);
+  } catch (err) {
+    res.json({ err });
+  }
+});
+
+app.post("/api/add-salary-structure", async (req, res) => {
+  await sql.connect(config);
+
+  const {
+    Employee_ID,
+    Basic,
+    HRA,
+    Special_Allowance,
+    Conveyance,
+    Effective_From,
+  } = req.body;
+  const Created_By = 1;
+  const Created_Time = new Date();
+
+  console.log("req.body:- ", req.body);
+
+  try {
+    const result =
+      await sql.query`INSERT INTO SALARYSTRUCTURE (Employee_ID,Basic,HRA,Special_Allowance,Conveyance,Effective_From,Created_By,Created_Time)
+    values (${Employee_ID},${Basic},${HRA},${Special_Allowance},${Conveyance},${Effective_From},${Created_By},${Created_Time})`;
+    res.send({ message: "Salary Structure Created Successfully" });
+  } catch (err) {
+    res.send({ message: "Error in Salary Structue creation", err });
+  }
+});
+
+app.get("/api/salary-structure-details", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result =
+      await sql.query`Select e.Employee_Code, e.Employee_ID, e.Employee_Name, S.Basic, S.HRA, S.Conveyance, S.Special_Allowance, S.Effective_From, S.Created_By, S.Created_Time from employee as e 
+      Inner Join SalaryStructure as s on s.Employee_ID = e.Employee_ID
+`;
+    // console.log(result.recordset);
+    res.json(result.recordset);
+  } catch (err) {
+    res.json({ message: "Error in fetching Salary Structure Details" });
   }
 });
 
