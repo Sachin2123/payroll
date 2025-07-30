@@ -43,22 +43,22 @@ const AddEmployee = () => {
     // console.log(form.Company_Name);
     // console.log("form data :-", JSON.stringify(form));
 
-    if (
-      !form.Employee_Code ||
-      !form.Employee_Name ||
-      !form.Company_Name ||
-      !form.Grade ||
-      !form.Branch ||
-      !form.Designation ||
-      !form.Department ||
-      !form.Joining_Date ||
-      !form.Probation_Month ||
-      !form.Confirmation_Date ||
-      !form.Birth_Date
-    ) {
-      alert("Please fill all the fields");
-      return;
-    }
+    // if (
+    //   !form.Employee_Code ||
+    //   !form.Employee_Name ||
+    //   !form.Company_Name ||
+    //   !form.Grade ||
+    //   !form.Branch ||
+    //   !form.Designation ||
+    //   !form.Department ||
+    //   !form.Joining_Date ||
+    //   !form.Probation_Month ||
+    //   !form.Confirmation_Date ||
+    //   !form.Birth_Date
+    // ) {
+    //   alert("Please fill all the fields");
+    //   return;
+    // }
 
     try {
       const res = await fetch("http://localhost:5000/api/addemployee", {

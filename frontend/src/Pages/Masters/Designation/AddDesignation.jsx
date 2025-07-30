@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const AddDesignation = () => {
+  const [error, setError] = useState();
   const [form, setForm] = useState({
     Designation_Name: "",
     Created_By: "",
@@ -22,8 +23,15 @@ const AddDesignation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form.Designation_Name);
+    // console.log(form.Designation_Name);
     // console.log("designation Name :-", JSON.stringify(form));
+
+    if (!form.Designation_Name.trim() === "" || !form.Designation_Name) {
+      setError("Designation is required");
+      // alert(error);
+      return;
+    }
+    setError("");
 
     try {
       const res = await fetch("http://localhost:5000/api/adddesignation", {
@@ -72,7 +80,7 @@ const AddDesignation = () => {
         ></Box>
         <Divider />
         <Box
-        //   component="form"
+          //   component="form"
           sx={{
             mt: 8,
             p: 3,
@@ -86,7 +94,7 @@ const AddDesignation = () => {
           {/* Create Branch Name */}
           <label style={{ fontSize: "14px", mr: 12 }}>Designation Name</label>
           <TextField
-            required
+            // required
             onChange={handleChange}
             name="Designation_Name"
             value={form.Designation_Name}
@@ -111,6 +119,20 @@ const AddDesignation = () => {
               },
             }}
           />
+          {error ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                color: "red",
+                // mb: 5,
+              }}
+            >
+              {error}
+            </Box>
+          ) : (
+            ""
+          )}
         </Box>
         <Divider />
         {/* Save Button */}

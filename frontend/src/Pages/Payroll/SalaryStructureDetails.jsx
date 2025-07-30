@@ -84,7 +84,7 @@ const SalaryStructureDetails = () => {
 
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
-  console.log(data);
+  // console.log(data);
 
   return (
     <Box sx={{}}>
@@ -98,7 +98,7 @@ const SalaryStructureDetails = () => {
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button
               className="btn-addgrade"
-              onClick={() => navigate("/add-salary-structure")}
+              onClick={() => navigate("/payroll/add-salary-structure")}
               sx={{
                 boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
                 color: "white",
@@ -110,7 +110,7 @@ const SalaryStructureDetails = () => {
             </Button>
             <Button
               className="btn-process-salary"
-              onClick={() => navigate("/process-salary")}
+              onClick={() => navigate("/payroll/process-salary")}
               sx={{
                 boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
                 color: "white",
@@ -119,6 +119,19 @@ const SalaryStructureDetails = () => {
               }}
             >
               Process Salary
+            </Button>
+            <Button
+              className="btn-process-salary"
+              onClick={() => navigate("/payroll/payheaddetails")}
+              sx={{
+                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
+                color: "white",
+                background: "black",
+                padding: "8px 14px",
+                // textTransform: "none",
+              }}
+            >
+              Payheads
             </Button>
           </Box>
         </Box>

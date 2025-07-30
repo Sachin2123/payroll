@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const AddGrade = () => {
+  const [error, setError] = useState();
   const [form, setForm] = useState({
-    Grade: "",
+    Grade_Name: "",
     Created_By: "",
     Created_Time: "",
   });
@@ -24,6 +25,13 @@ const AddGrade = () => {
     e.preventDefault();
     // console.log(form.Grade_Name);
     // console.log("Grade Name :-", JSON.stringify(form));
+
+    if (!form.Grade_Name.trim() === "" || !form.Grade_Name) {
+      setError("Grade is required");
+      // alert(error);
+      return;
+    }
+    setError("");
 
     try {
       const res = await fetch("http://localhost:5000/api/addgrade", {
@@ -109,6 +117,20 @@ const AddGrade = () => {
               },
             }}
           />
+          {error ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                color: "red",
+                // mb: 5,
+              }}
+            >
+              {error}
+            </Box>
+          ) : (
+            ""
+          )}
         </Box>
         <Divider />
         {/* Save Button */}

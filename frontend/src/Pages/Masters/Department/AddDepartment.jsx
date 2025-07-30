@@ -6,6 +6,7 @@ import { useState } from "react";
 // import { useQuery } from "@tanstack/react-query";
 
 const AddDepartment = () => {
+  const [error, setError] = useState();
   const [form, setForm] = useState({
     Department: "",
     Created_By: "",
@@ -24,8 +25,14 @@ const AddDepartment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(form.Department_Name);
-    console.log("Department Name :-", JSON.stringify(form));
+    // console.log("Department :-", JSON.stringify(form));
 
+    if (!form.Department_Name || form.Department_Name.trim() === "") {
+      setError("Department is required");
+      // alert(error);
+      return;
+    }
+    setError("");
     try {
       const res = await fetch("http://localhost:5000/api/adddepartment", {
         method: "POST",
@@ -112,6 +119,20 @@ const AddDepartment = () => {
               },
             }}
           />
+          {error ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                color: "red",
+                // mb: 5,
+              }}
+            >
+              {error}
+            </Box>
+          ) : (
+            ""
+          )}
         </Box>
         <Divider />
         {/* Save Button */}

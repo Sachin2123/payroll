@@ -6,6 +6,7 @@ import { CircleUser, CalendarDays, Banknote, Clock } from "lucide-react";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  // const [click, setClick] = useState(false);
   const menus = [
     {
       name: "Grade",
@@ -62,7 +63,7 @@ const Sidebar = () => {
     },
     {
       name: "Payroll",
-      path: "/salary-structure-details",
+      path: "/payroll/salary-structure-details",
       submenu: "",
       icons: <Banknote />,
     },
@@ -109,15 +110,6 @@ const Sidebar = () => {
             gap: 1,
           }}
         >
-          {/* {menus[0].submenu ? (
-            <div>
-              {menus[0].submenu.map((submenu, index) => {
-                <div key={submenu.id}>{submenu.name}</div>;
-              })}
-            </div>
-          ) : (
-            ""
-          )} */}
           {menus.map((menu, id) => {
             return (
               <Button

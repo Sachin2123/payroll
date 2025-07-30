@@ -6,6 +6,7 @@ import { useState } from "react";
 // import { useQuery } from "@tanstack/react-query";
 
 const AddBranch = () => {
+  const [error, setError] = useState();
   const [form, setForm] = useState({
     Branch_Name: "",
     Created_By: "",
@@ -22,11 +23,15 @@ const AddBranch = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("form.Branch_Name:- ", form.Branch_Name);
 
-    if (!form.Branch_Name || form.Branch_Name.trim() === "") {
-      alert("Please fill Branch Name");
+    if (form.Branch_Name.trim() === "" || !form.Branch_Name) {
+      setError("Branch Name is required");
+      // alert(error);
       return;
     }
+
+    setError("");
 
     try {
       const res = await fetch("http://localhost:5000/api/addbranch", {
@@ -41,6 +46,7 @@ const AddBranch = () => {
 
       if (res.ok) {
         alert(result.message);
+
         setTimeout(() => {
           navigate("/branchdetails");
         }, 300);
@@ -52,6 +58,8 @@ const AddBranch = () => {
       alert("Something went wrong. Check console.");
     }
   };
+
+ 
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
@@ -111,6 +119,20 @@ const AddBranch = () => {
               },
             }}
           />
+          {error ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                color: "red",
+                // mb: 5,
+              }}
+            >
+              {error}
+            </Box>
+          ) : (
+            ""
+          )}
         </Box>
         <Divider />
         {/* Save Button */}

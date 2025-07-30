@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import { Box, Typography, TextField, Divider, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchEmp = async () => {
@@ -23,6 +23,7 @@ const AddSalaryStructure = () => {
     Effective_From: "",
     Created_By: "",
     Created_Time: "",
+    MonthlyCTC: "",
   });
   const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ const AddSalaryStructure = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("form:- ", form);
+    // console.log("form:- ", form);
     // console.log("Grade Name :-", JSON.stringify(form));
 
     if (
@@ -85,6 +86,17 @@ const AddSalaryStructure = () => {
   });
 
   // console.log("data:- ", data ? data[0] : "No Data");
+
+  useEffect(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      MonthlyCTC:
+        Number(form.Basic) +
+        Number(form.HRA) +
+        Number(form.Conveyance) +
+        Number(form.Special_Allowance),
+    }));
+  }, [form.Basic, form.HRA, form.Conveyance, form.Special_Allowance]);
 
   if (isLoading) <div>..Loading</div>;
   if (error) <div>..Error</div>;
@@ -168,8 +180,13 @@ const AddSalaryStructure = () => {
             gap: 30,
             mt: 5,
             mb: 5,
+            // backgroundColor: "#E6E6FA",
+            // pt: 5,
+            // pb: 5,
+            p: 5,
           }}
         >
+          {/* Payheads */}
           <Box
             sx={{
               display: "flex",
@@ -185,8 +202,16 @@ const AddSalaryStructure = () => {
               Special Allowance
             </label>
             <label style={{ fontSize: "14px", mr: 12 }}>Conveyance</label>
+            <label style={{ fontSize: "14px", mr: 12 }}>MonthlyCTC</label>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 5 }}>
+          {/* Payhead Amount */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 5,
+            }}
+          >
             {/* Basic */}
             <TextField
               required
@@ -200,10 +225,12 @@ const AddSalaryStructure = () => {
               size="small"
               type="number"
               sx={{
+                backgroundColor: "#E6E6FA",
+
                 ml: 0,
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#ccc", // default border color
+                    borderColor: "black", // default border color
                   },
                   "&:hover fieldset": {
                     borderColor: "black", // on hover
@@ -228,9 +255,10 @@ const AddSalaryStructure = () => {
               type="number"
               sx={{
                 ml: 0,
+                backgroundColor: "#E6E6FA",
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#ccc", // default border color
+                    borderColor: "black", // default border color
                   },
                   "&:hover fieldset": {
                     borderColor: "black", // on hover
@@ -255,9 +283,10 @@ const AddSalaryStructure = () => {
               type="number"
               sx={{
                 ml: 0,
+                backgroundColor: "#E6E6FA",
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#ccc", // default border color
+                    borderColor: "black", // default border color
                   },
                   "&:hover fieldset": {
                     borderColor: "black", // on hover
@@ -281,10 +310,39 @@ const AddSalaryStructure = () => {
               size="small"
               type="number"
               sx={{
+                backgroundColor: "#E6E6FA",
                 ml: 0,
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#ccc", // default border color
+                    borderColor: "black", // default border color
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "black", // on hover
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "black", // on focus
+                  },
+                },
+              }}
+            />{" "}
+            {/* MonthltyCTC */}
+            <TextField
+              disabled
+              // onChange={(e) => handleMonthlyCTC(e)}
+              name="MonthlyCTC"
+              value={form.MonthlyCTC}
+              placeholder="0"
+              id="outlined-basic"
+              label=""
+              variant="outlined"
+              size="small"
+              type="number"
+              sx={{
+                backgroundColor: "#E6E6FA",
+                ml: 0,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "black", // default border color
                   },
                   "&:hover fieldset": {
                     borderColor: "black", // on hover

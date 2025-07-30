@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProcessSalary = () => {
-  return <div>hey</div>;
+  return <div>Process Salary</div>;
 };
 
 export default ProcessSalary;

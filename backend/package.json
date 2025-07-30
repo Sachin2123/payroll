@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@tanstack/react-query": "^5.81.2",
+    "axios": "^1.11.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",

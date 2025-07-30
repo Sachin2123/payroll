@@ -18,6 +18,9 @@ import AddGrade from "./Pages/Masters/Grade/AddGrade";
 import GradeDetails from "./Pages/Masters/Grade/GradeDetails";
 import AddSalaryStructure from "./Pages/Payroll/AddSalaryStructure";
 import ProcessSalary from "./Pages/Payroll/ProcessSalary";
+import AddPayheads from "./Pages/Payroll/Payheads/AddPayheads";
+import PayheadsDetails from "./Pages/Payroll/Payheads/PayheadsDetails";
+import UpdatePayheads from "./Pages/Payroll/Payheads/UpdatePayheads";
 import { ErrorFallback } from "./component/Fallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -75,14 +78,29 @@ function App() {
                   <Route path="/attendance" element={<Attendance />} />
                   <Route path="/payroll" element={<Payroll />} />
                   <Route
-                    path="/add-salary-structure"
+                    path="/payroll/add-salary-structure"
                     element={<AddSalaryStructure />}
                   />
                   <Route
-                    path="/salary-structure-details"
+                    path="/payroll/salary-structure-details"
                     element={<SalaryStructureDetails />}
                   />
-                  <Route path="/process-salary" element={<ProcessSalary />} />
+                  <Route
+                    path="/payroll/process-salary"
+                    element={<ProcessSalary />}
+                  />
+                  <Route
+                    path="/payroll/addpayhead"
+                    element={<AddPayheads />}
+                  ></Route>
+                  <Route
+                    path="/payroll/payheaddetails"
+                    element={<PayheadsDetails />}
+                  ></Route>
+                  <Route
+                    path="/payroll/UpdatePayheads/:Payhead_ID"
+                    element={<UpdatePayheads />}
+                  ></Route>
                 </Routes>
               </Box>
             </Box>

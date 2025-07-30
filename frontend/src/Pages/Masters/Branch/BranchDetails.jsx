@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
+import * as XLSX from "xlsx";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -55,6 +56,16 @@ const BranchDetails = () => {
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
 
+  console.log("Branch Name:- ", data);
+
+  // Export Branch
+  const exportBranch = () => {
+    const workbook = XLSX.utils.book_new(); //Blank Workbook will create
+    const worksheet = XLSX.utils.json_to_sheet(data); //data will come in sheet of blank workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Branch");
+    XLSX.writeFile(workbook, "Branch.xlsx");
+  };
+
   return (
     <Box sx={{}}>
       <Paper elevation={3} sx={{ height: "85vh", overflowY: "auto" }}>
@@ -79,7 +90,7 @@ const BranchDetails = () => {
             </Button>
             <Button
               className="btn-export"
-              onClick={() => navigate("/export-branch")}
+              onClick={exportBranch}
               sx={{
                 boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
                 color: "white",

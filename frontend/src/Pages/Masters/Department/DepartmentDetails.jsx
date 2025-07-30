@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
+import * as XLSX from "xlsx";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -52,6 +53,13 @@ const DepartmentDetails = () => {
     queryFn: fetchDepartment,
   });
 
+  const exportDepartment = () => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Department");
+    XLSX.writeFile(workbook, "DepartmentDetails.xlsx");
+  };
+
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
 
@@ -79,7 +87,7 @@ const DepartmentDetails = () => {
             </Button>
             <Button
               className="btn-export"
-              onClick={() => navigate("/export-department")}
+              onClick={exportDepartment}
               sx={{
                 boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
                 color: "white",
