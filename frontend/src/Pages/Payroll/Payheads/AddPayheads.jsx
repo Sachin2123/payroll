@@ -15,7 +15,6 @@ const fetchGradeCompany = async () => {
 };
 
 const AddPayheads = () => {
-  const [formulaType, setFormulaType] = useState("");
   const [form, setForm] = useState({
     Payhead_Code: "",
     Payhead_Name: "",
@@ -34,10 +33,7 @@ const AddPayheads = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormulaType({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+   
     // console.log("formulaType:- ", formulaType.IS_Formula_Type);
     setForm({
       ...form,
@@ -60,7 +56,7 @@ const AddPayheads = () => {
       });
 
       const result = await res.json(); // Read server response
-      //   console.log("result.message:- ", result.message);
+        console.log("result.message:- ", result.message);
 
       if (res.ok) {
         // alert(result.message); // Success message
@@ -375,6 +371,8 @@ const AddPayheads = () => {
                 <option value="1">Yes</option>
                 <option value="0">No</option>
               </select>
+
+              {/* Is_Formula_Type */}
               <select
                 style={{
                   padding: "10.5px",
@@ -385,7 +383,7 @@ const AddPayheads = () => {
                 name="IS_Formula_Type"
                 value={form.IS_Formula_Type}
               >
-                <option>Select</option>
+                <option disabled>Select</option>
 
                 <option value="1">Flag</option>
                 <option value="0">Formula</option>
@@ -403,24 +401,24 @@ const AddPayheads = () => {
             alignItems: "center",
           }}
         >
-          {formulaType.IS_Formula_Type == 1 ? (
+          {/* {formulaType.IS_Formula_Type == 1 ? (
             ""
-          ) : (
-            <>
-              <Typography sx={{ ml: 0 }}>Formula </Typography>
-              <textarea
-                style={{
-                  width: "68%",
-                  height: "100px",
-                  backgroundColor: "#E6E6FA",
-                }}
-                type="text"
-                onChange={handleChange}
-                name="Payhead_Formula"
-                value={form.Payhead_Formula}
-              ></textarea>
-            </>
-          )}
+          ) : ( */}
+          <>
+            <Typography sx={{ ml: 0 }}>Formula </Typography>
+            <textarea
+              style={{
+                width: "68%",
+                height: "100px",
+                backgroundColor: "#E6E6FA",
+              }}
+              type="text"
+              onChange={handleChange}
+              name="Payhead_Formula"
+              value={form.Payhead_Formula}
+            ></textarea>
+          </>
+          {/* )} */}
         </Box>
         <Divider sx={{ mt: 5 }} />
         {/* Save Button */}

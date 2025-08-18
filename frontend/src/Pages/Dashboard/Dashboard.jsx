@@ -6,28 +6,18 @@ import Axios from "../../api/Axios";
 import { useState } from "react";
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [Clicked, setClicked] = useState();
+  const [hey, setHey] = useState();
 
   const handleClick = async (e) => {
-    setClicked(!Clicked);
-    const t = [
-      { monthlyCTC: 15000, totalWorkingDays: 31, dayspaid: 29 },
-      { monthlyCTC: 16000, totalWorkingDays: 31, dayspaid: 30 },
-      { monthlyCTC: 17000, totalWorkingDays: 31, dayspaid: 31 },
-    ];
+    const t = [{ MonthlyCTC: 60000 }];
     e.preventDefault();
     const res = await Axios.post("/Exec-Procedure", JSON.stringify(t));
 
     const result = res.data;
-    // console.log("result:- ", result);
+    setHey(result);
+    console.log("result:- ", result);
     // console.log("result:- ", res.stringify());
   };
-
-  const data = [
-    { monthlyCTC: 15000, totalWorkingDays: 31, dayspaid: 31 },
-    { monthlyCTC: 16000, totalWorkingDays: 31, dayspaid: 30 },
-    // { monthlyCTC: 17000, totalWorkingDays: 31, dayspaid: 31 },
-  ];
 
   return (
     <Box sx={{}}>
@@ -38,21 +28,27 @@ const Dashboard = () => {
           <Typography sx={{ ml: 1, fontSize: "18px" }}>Dashboard</Typography>
         </Box>
         <Button onClick={handleClick}>Calculate Overtime</Button>
-        {Clicked ? (
+        {
           <>
-            {data.map((ele, index) => (
-              // console.log((ele.monthlyCTC / ele.totalWorkingDays) * ele.dayspaid);
-              <ul key={index}>
-                <li>
-                  {(ele.monthlyCTC / ele.totalWorkingDays).toFixed(1) *
-                    ele.dayspaid}
-                </li>
-              </ul>
+            {hey?.map((ele, index) => (
+              <div key={index}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    justifyContent: "space-between",
+                    padding: "20px",
+                  }}
+                >
+                  <h6>{ele.Payhead_ID}</h6>
+
+                  <h6>{ele.Payhead_CODE} </h6>
+                  <h6>{ele.Payhead_FORMULA}</h6>
+                </div>
+              </div>
             ))}
           </>
-        ) : (
-          ""
-        )}
+        }
       </Paper>
     </Box>
   );

@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Divider, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const AddGrade = () => {
   const [error, setError] = useState();
@@ -46,7 +47,13 @@ const AddGrade = () => {
       //   console.log("result.message:- ", result.message);
 
       if (res.ok) {
-        alert(result.message); // Success message
+        // alert(result.message); // Success message
+
+        Swal.fire({
+          icon: "success",
+          title: "Grade",
+          text: "Added Successfully!",
+        });
         setTimeout(() => {
           navigate("/gradedetails");
         }, 300);
@@ -55,7 +62,12 @@ const AddGrade = () => {
       }
     } catch (err) {
       //   console.log("Fetch failed:", err);
-      alert("Something went wrong. Check console.");
+      // alert("Something went wrong. Check console.");
+      Swal.fire({
+        icon: "error",
+        text: `Something went wrong check console.`,
+        title: "Grade",
+      });
     }
   };
 

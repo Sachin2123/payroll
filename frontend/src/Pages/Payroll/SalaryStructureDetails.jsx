@@ -35,8 +35,8 @@ const columns = [
     width: 100,
   },
   {
-    field: "Conveyance",
-    headerName: "Conveyance",
+    field: "Bonus",
+    headerName: "Bonus",
     width: 100,
   },
   {
@@ -44,6 +44,11 @@ const columns = [
     headerName: "Special_Allowance",
     width: 150,
   },
+  // {
+  //   field: "MonthlyCTC",
+  //   headerName: "MonthlyCTC",
+  //   width: 150,
+  // },
   {
     field: "Effective_From",
     headerName: "Effective From",
@@ -54,7 +59,7 @@ const columns = [
   {
     field: "Created_By",
     headerName: "Created By",
-    width: 130,
+    width: 100,
   },
   {
     field: "Created_Time",
@@ -84,7 +89,7 @@ const SalaryStructureDetails = () => {
 
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
-  // console.log(data);
+  console.log(data);
 
   return (
     <Box sx={{}}>

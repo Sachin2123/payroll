@@ -4,6 +4,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const AddEmployee = () => {
   const [form, setForm] = useState({
@@ -73,7 +74,13 @@ const AddEmployee = () => {
       //   console.log("result.message:- ", result.message);
 
       if (res.ok) {
-        alert(result.message); // Success message
+        // alert(result.message); // Success message
+
+        Swal.fire({
+          title: "Employee",
+          text: " Added Successfully",
+          icon: "success",
+        });
         setTimeout(() => {
           navigate("/employee");
         }, 300);
@@ -82,7 +89,12 @@ const AddEmployee = () => {
       }
     } catch (err) {
       //   console.log("Fetch failed:", err);
-      alert("Something went wrong. Check console.");
+      // alert("Something went wrong. Check console.");
+      Swal.fire({
+        icon: "error",
+        text: `Something went wrong check console.`,
+        title: "Employee",
+      });
     }
   };
 

@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Divider, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Swal from "sweetalert2";
 // import { useQuery } from "@tanstack/react-query";
 
 const AddBranch = () => {
@@ -45,21 +46,34 @@ const AddBranch = () => {
       const result = await res.json();
 
       if (res.ok) {
-        alert(result.message);
+        // alert(result.message);
+        Swal.fire({
+          icon: "success",
+          text: "Added Successfully!",
+          title: "Branch",
+        });
 
         setTimeout(() => {
           navigate("/branchdetails");
         }, 300);
       } else {
-        alert("Error: " + result.error);
+        // alert("Error: " + result.error);
+        Swal.fire({
+          icon: "error",
+          text: "Error in creating",
+          title: "Branch",
+        });
       }
     } catch (err) {
       console.error("Fetch failed:", err);
-      alert("Something went wrong. Check console.");
+      // alert("Something went wrong. Check console.");
+      Swal.fire({
+        icon: "error",
+        text: `Something went wrong check console.`,
+        title: "Branch",
+      });
     }
   };
-
- 
 
   return (
     <Box component="form" onSubmit={handleSubmit}>

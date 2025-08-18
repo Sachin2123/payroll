@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const UpdatePayheads = () => {
   const { Payhead_ID } = useParams();
@@ -20,6 +21,7 @@ const UpdatePayheads = () => {
     IS_PF: "",
     IS_ESIC: "",
     IS_PT: "",
+    IS_Formula_Type: "",
     IS_Attendance: "",
     Created_By: "",
     Created_Time: "",
@@ -46,7 +48,7 @@ const UpdatePayheads = () => {
     try {
       const result = await fetchSinglePayheadDetails(Payhead_ID);
       const data = result[0];
-      // console.log("data", data/\);
+      console.log("data", data);
       // Pre-fill form state
       setForm({
         Payhead_Code: data.Payhead_Code || "",
@@ -58,11 +60,12 @@ const UpdatePayheads = () => {
         IS_PF: data.IS_PF,
         IS_ESIC: data.IS_ESIC,
         IS_PT: data.IS_PT,
+        IS_Formula_Type: data.IS_Formula_Type,
         IS_Attendance: data.IS_Attendance,
         Created_By: data.Created_By || "",
         Created_Time: data.Created_Time || "",
       });
-      // console.log(data.IS_ESIC);
+      console.log("IS_Formula_Type:- ", IS_Formula_Type);
       // console.log(data.IS_PF);
     } catch (err) {
       console.error("Error in fetching payhead details:", err);
@@ -80,10 +83,10 @@ const UpdatePayheads = () => {
       ...form,
       [e.target.name]: e.target.value,
     });
-    // console.log("Update HandleChange :- ", {
-    //   ...form,
-    //   [e.target.name]: e.target.value,
-    // });
+    console.log("Update HandleChange :- ", {
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -106,7 +109,11 @@ const UpdatePayheads = () => {
       // console.log(result);
 
       if (res.ok) {
-        alert(result.message);
+        // alert(result.message);
+        Swal.fire({
+          title: `${form.Payhead_Name} Payhead Updated Successfully`,
+          icon: "success",
+        });
         setTimeout(() => {
           navigate("/payroll/payheaddetails");
         }, 300);
@@ -308,6 +315,7 @@ const UpdatePayheads = () => {
               <Typography>Payhead Code</Typography>
               <Typography>PT</Typography>
               <Typography>Attendance</Typography>
+              <Typography>Formula Type</Typography>
             </Box>
 
             <Box
@@ -408,6 +416,22 @@ const UpdatePayheads = () => {
 
                 <option value="1">Yes</option>
                 <option value="0">No</option>
+              </select>
+
+              <select
+                style={{
+                  padding: "10.5px",
+                  paddingRight: "25px",
+                  paddingLeft: "25px",
+                }}
+                onChange={handleChange}
+                name="IS_Formula_Type"
+                value={form.IS_Formula_Type}
+              >
+                <option disabled>Select</option>
+
+                <option value="1">Flag</option>
+                <option value="0">Formula</option>
               </select>
             </Box>
           </Box>

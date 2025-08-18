@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Divider, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Swal from "sweetalert2";
 // import { useQuery } from "@tanstack/react-query";
 
 const AddCompany = () => {
@@ -39,7 +40,13 @@ const AddCompany = () => {
       //   console.log("result.message:- ", result.message);
 
       if (res.ok) {
-        alert(result.message); // Success message
+        // alert(result.message); // Success message
+
+        Swal.fire({
+          title: "Company ",
+          text: "Added Successfully!",
+          icon: "success",
+        });
         setTimeout(() => {
           navigate("/companydetails");
         }, 300);
@@ -48,7 +55,12 @@ const AddCompany = () => {
       }
     } catch (err) {
       //   console.log("Fetch failed:", err);
-      alert("Something went wrong. Check console.");
+      // alert("Something went wrong. Check console.");
+      Swal.fire({
+        title: "Company ",
+        text: "Something went wrong. Check console.",
+        icon: "error",
+      });
     }
   };
 

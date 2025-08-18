@@ -18,7 +18,7 @@ const AddSalaryStructure = () => {
     Employee_ID: "",
     Basic: "",
     HRA: "",
-    Conveyance: "",
+    Bonus: "",
     Special_Allowance: "",
     Effective_From: "",
     Created_By: "",
@@ -43,7 +43,7 @@ const AddSalaryStructure = () => {
     if (
       !form.Basic ||
       !form.HRA ||
-      !form.Conveyance ||
+      !form.Bonus ||
       !form.Special_Allowance ||
       !form.Effective_From
     ) {
@@ -53,7 +53,7 @@ const AddSalaryStructure = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:5000/api/add-salary-structure",
+        "http://localhost:5000/api/add-manual-salary-structure",
         {
           method: "POST",
           headers: {
@@ -69,7 +69,7 @@ const AddSalaryStructure = () => {
       if (res.ok) {
         alert(result.message); // Success message
         setTimeout(() => {
-          navigate("/salary-structure-details");
+          navigate("/payroll/salary-structure-details");
         }, 300);
       } else {
         alert("Error: " + result.error);
@@ -93,10 +93,10 @@ const AddSalaryStructure = () => {
       MonthlyCTC:
         Number(form.Basic) +
         Number(form.HRA) +
-        Number(form.Conveyance) +
+        Number(form.Bonus) +
         Number(form.Special_Allowance),
     }));
-  }, [form.Basic, form.HRA, form.Conveyance, form.Special_Allowance]);
+  }, [form.Basic, form.HRA, form.Bonus, form.Special_Allowance]);
 
   if (isLoading) <div>..Loading</div>;
   if (error) <div>..Error</div>;
@@ -201,7 +201,7 @@ const AddSalaryStructure = () => {
             <label style={{ fontSize: "14px", mr: 12 }}>
               Special Allowance
             </label>
-            <label style={{ fontSize: "14px", mr: 12 }}>Conveyance</label>
+            <label style={{ fontSize: "14px", mr: 12 }}>Bonus</label>
             <label style={{ fontSize: "14px", mr: 12 }}>MonthlyCTC</label>
           </Box>
           {/* Payhead Amount */}
@@ -297,12 +297,12 @@ const AddSalaryStructure = () => {
                 },
               }}
             />
-            {/* Conveyance */}
+            {/* Bonus */}
             <TextField
               required
               onChange={handleChange}
-              name="Conveyance"
-              value={form.Conveyance}
+              name="Bonus"
+              value={form.Bonus}
               placeholder="0"
               id="outlined-basic"
               label=""
@@ -327,7 +327,7 @@ const AddSalaryStructure = () => {
             />{" "}
             {/* MonthltyCTC */}
             <TextField
-              disabled
+              // disabled
               // onChange={(e) => handleMonthlyCTC(e)}
               name="MonthlyCTC"
               value={form.MonthlyCTC}

@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // import { format } from "date-fns";
 
-const paginationModel = { page: 0, pageSize: 5 };
+const paginationModel = { page: 0, pageSize: 10 };
 
 // const dateFormat = "dd-MMM-yyyy";
 
@@ -79,7 +79,7 @@ const PayheadsDetails = () => {
     {
       field: "Payhead_Formula",
       headerName: "Payhead Formula",
-      width: 300,
+      width: 500,
     },
   ];
   const navigate = useNavigate();
