@@ -3,7 +3,8 @@ import Header from "./component/Header/Header";
 import Employee from "./Pages/Employee/Employee";
 import AddEmployee from "./Pages/Employee/AddEmployee";
 import Leave from "./Pages/Leave/Leave";
-import Attendance from "./Pages/Attendance/Attendance";
+import AttendanceDetails from "./Pages/Attendance/AttendanceDetails";
+import AddAttendance from "./Pages/Attendance/AddAttendance";
 import Payroll from "./Pages/Payroll/Payroll";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import CompanyDetails from "./Pages/Company/CompanyDetails";
@@ -75,7 +76,14 @@ function App() {
                   <Route path="/employee" element={<Employee />} />
                   <Route path="/addemployee" element={<AddEmployee />} />
                   <Route path="/leave" element={<Leave />} />
-                  <Route path="/attendance" element={<Attendance />} />
+                  <Route
+                    path="/attendance/attendancedetails"
+                    element={<AttendanceDetails />}
+                  />
+                  <Route
+                    path="/attendance/AddAttendance"
+                    element={<AddAttendance />}
+                  />
                   <Route path="/payroll" element={<Payroll />} />
                   <Route
                     path="/payroll/add-salary-structure"

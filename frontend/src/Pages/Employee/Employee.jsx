@@ -7,6 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
 import * as XLSX from "xlsx";
+import Skeleton from "@mui/material/Skeleton";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -81,7 +82,7 @@ const Employee = () => {
     XLSX.writeFile(wb, "Employee.xlsx");
   };
 
-  if (isLoading) return <div>...Loading</div>;
+  if (isLoading) return <div>...Loading </div>;
   if (error) return <div>...Error</div>;
 
   return (

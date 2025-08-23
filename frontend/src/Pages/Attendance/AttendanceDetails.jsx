@@ -2,10 +2,11 @@ import Paper from "@mui/material/Paper";
 import { Box, Typography, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
+import { DataGrid } from "@mui/x-data-grid";
+import { useQuery } from "@tanstack/react-query";
+import Axios from "../../api/Axios";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -14,55 +15,66 @@ const dateFormat = "dd-MMM-yyyy";
 const columns = [
   {
     icons: <EditIcon />,
-    field: "Employee_Code",
+    field: "EMPLOYEE_CODE",
     headerName: "Employee Code",
     width: 130,
   },
   {
     icons: <EditIcon />,
-    field: "Employee_Name",
+    field: "EMPLOYEE_NAME",
     headerName: "Employee Name",
     width: 200,
   },
   {
-    field: "Basic",
-    headerName: "Basic",
+    field: "MONTH",
+    headerName: "Month",
+    width: 70,
+  },
+  {
+    field: "YEAR",
+    headerName: "Year",
+    width: 80,
+  },
+  {
+    field: "TOT_DAYS",
+    headerName: "Total Days",
     width: 100,
   },
   {
-    field: "HRA",
-    headerName: "HRA",
+    field: "WEEKLY_OFF",
+    headerName: "WO",
+    width: 60,
+  },
+  {
+    field: "PAID_HOLIDAY",
+    headerName: "PH",
+    width: 60,
+  },
+  {
+    field: "PRESENT",
+    headerName: "Present",
+    width: 80,
+  },
+  {
+    field: "ABSENT_DAYS",
+    headerName: "Absent",
+    width: 80,
+  },
+
+  {
+    field: "DAYS_PAID",
+    headerName: "Days Paid",
     width: 100,
+    // renderCell: (params) =>
+    //   params.value ? format(new Date(params.value), dateFormat) : "-",
   },
   {
-    field: "Bonus",
-    headerName: "Bonus",
-    width: 100,
-  },
-  {
-    field: "Special_Allowance",
-    headerName: "Special_Allowance",
-    width: 150,
-  },
-  // {
-  //   field: "MonthlyCTC",
-  //   headerName: "MonthlyCTC",
-  //   width: 150,
-  // },
-  {
-    field: "Effective_From",
-    headerName: "Effective From",
-    width: 110,
-    renderCell: (params) =>
-      params.value ? format(new Date(params.value), dateFormat) : "-",
-  },
-  {
-    field: "Created_By",
+    field: "CREATED_BY",
     headerName: "Created By",
     width: 100,
   },
   {
-    field: "Created_Time",
+    field: "CREATED_TIME",
     headerName: "Created Time",
     width: 120,
     renderCell: (params) =>
@@ -70,25 +82,23 @@ const columns = [
   },
 ];
 
-const fetchSalaryStructrueDetails = async () => {
-  const result = await fetch(
-    "http://localhost:5000/api/salary-structure-details"
-  );
-  if (!result.ok) throw new Error("error in fetching grade data");
-  // console.log(result);
-  return result.json();
+const FetchMonthlyAttendance = async () => {
+  try {
+    const result = await Axios.get("/FetchMonthlyAttendance");
+    // console.log(result.data);
+    return result.data;
+  } catch (err) {
+    console.log("Error in fetching Monthly Attendance", err);
+  }
 };
 
-const SalaryStructureDetails = () => {
+const AttendanceDetails = () => {
   const navigate = useNavigate();
 
-  const { error, isLoading, data } = useQuery({
-    queryKey: ["fetchSalaryStructrueDetails"],
-    queryFn: fetchSalaryStructrueDetails,
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["FetchMonthlyAttendance"],
+    queryFn: FetchMonthlyAttendance,
   });
-
-  if (isLoading) return <div>...Loading</div>;
-  if (error) return <div>...Error</div>;
   // console.log(data);
 
   return (
@@ -98,7 +108,7 @@ const SalaryStructureDetails = () => {
         <Box sx={{ display: "flex", p: 2, justifyContent: "space-between" }}>
           <Box sx={{ display: "flex" }}>
             <HomeIcon onClick={() => navigate("/")} />
-            <Typography sx={{ ml: 1, fontSize: "18px" }}>Payroll</Typography>
+            <Typography sx={{ ml: 1, fontSize: "18px" }}>Attendance</Typography>
           </Box>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button
@@ -111,21 +121,9 @@ const SalaryStructureDetails = () => {
                 padding: "8px 14px",
               }}
             >
-              Monthly Attendance
+              Add Attendance
             </Button>
-            <Button
-              className="btn-addgrade"
-              onClick={() => navigate("/payroll/add-salary-structure")}
-              sx={{
-                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
-                color: "white",
-                background: "black",
-                padding: "8px 14px",
-              }}
-            >
-              Salary Structure
-            </Button>
-            <Button
+            {/* <Button
               className="btn-process-salary"
               onClick={() => navigate("/payroll/process-salary")}
               sx={{
@@ -149,7 +147,7 @@ const SalaryStructureDetails = () => {
               }}
             >
               Payheads
-            </Button>
+            </Button> */}
           </Box>
         </Box>
         <Box sx={{ mt: 8, mb: 1, display: "flex", justifyContent: "center" }}>
@@ -157,9 +155,8 @@ const SalaryStructureDetails = () => {
 
           <DataGrid
             rows={
-              data ? data.map((row) => ({ ...row, id: row.Employee_ID })) : []
+              data ? data.map((row) => ({ ...row, id: row.EMPLOYEE_ID })) : []
             }
-            // rows={data}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
             pageSizeOptions={[5, 10]}
@@ -172,4 +169,4 @@ const SalaryStructureDetails = () => {
   );
 };
 
-export default SalaryStructureDetails;
+export default AttendanceDetails;

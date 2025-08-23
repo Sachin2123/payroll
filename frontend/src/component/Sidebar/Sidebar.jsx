@@ -51,7 +51,7 @@ const Sidebar = () => {
     },
     {
       name: "Attendance",
-      path: "/attendance",
+      path: "/attendance/attendancedetails",
       submenu: "",
       icons: <Clock />,
     },
