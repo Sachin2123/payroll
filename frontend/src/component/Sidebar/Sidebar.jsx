@@ -2,36 +2,20 @@ import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import CreateIcon from "@mui/icons-material/Create";
-import { CircleUser, CalendarDays, Banknote, Clock } from "lucide-react";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
+import LocationCityIcon from "@mui/icons-material/LocationCity";
+
+import { CircleUser, CalendarDays, Banknote, Clock, Award } from "lucide-react";
+import { useLocation } from "react-router-dom";
 const Sidebar = () => {
   const navigate = useNavigate();
   // const [click, setClick] = useState(false);
+
+  const Location = useLocation();
+  // console.log("Location:- ", Location);
   const menus = [
-    {
-      name: "Grade",
-      path: "/gradedetails",
-      submenu: "",
-      icons: <CreateIcon />,
-    },
-    {
-      name: "Department",
-      path: "/departmentdetails",
-      submenu: "",
-      icons: <CreateIcon />,
-    },
-    {
-      name: "Designation",
-      path: "/designationdetails",
-      submenu: "",
-      icons: <CreateIcon />,
-    },
-    {
-      name: "Branch",
-      path: "/branchdetails",
-      submenu: "",
-      icons: <CorporateFareIcon />,
-    },
     {
       name: "Company",
       path: "/companydetails",
@@ -67,12 +51,42 @@ const Sidebar = () => {
       submenu: "",
       icons: <Banknote />,
     },
+    {
+      name: "Reports",
+      path: "/repots",
+      submenu: "",
+      icons: <DescriptionIcon />,
+    },
+    {
+      name: "Grade",
+      path: "/gradedetails",
+      submenu: "",
+      icons: <Award />,
+    },
+    {
+      name: "Department",
+      path: "/departmentdetails",
+      submenu: "",
+      icons: <PeopleAltIcon />,
+    },
+    {
+      name: "Designation",
+      path: "/designationdetails",
+      submenu: "",
+      icons: <CreateIcon />,
+    },
+    {
+      name: "Branch",
+      path: "/branchdetails",
+      submenu: "",
+      icons: <LocationCityIcon />,
+    },
   ];
 
   // console.log(menus[0].submenu);
 
   const handleClick = (path) => {
-    // console.log(path);
+    // console.log("handleSubmit :- ", path);
     navigate(path);
   };
 
@@ -95,12 +109,12 @@ const Sidebar = () => {
         {/* <Typography variant="h6">Company Logo</Typography> */}
         <img
           onClick={() => navigate("/")}
-          style={{ width: "200px" }}
-          src="./CompanyLogo.jpg"
-          alt="logo"
+          style={{ width: "150px", height: "150px" }}
+          src="/CompanyLogo.jpg"
+          alt="Company logo"
         ></img>
       </Box>
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 0 }}>
         <Box
           sx={{
             // mt: 2,
@@ -118,11 +132,14 @@ const Sidebar = () => {
                 sx={{
                   padding: 1,
                   width: "100%",
-                  color: "grey",
+                  // color: "White",
+                  color: Location.pathname === menu.path ? "Black" : "Grey",
+                  backgroundColor:
+                    Location.pathname === menu.path ? "#FAF9F6	" : "transparent",
                   textTransform: "none",
                   justifyContent: "flex-start",
                   "&:hover": {
-                    color: "white",
+                    color: Location.pathname === menu.path ? "black" : "white",
                   },
                 }}
               >

@@ -4,102 +4,118 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import Axios from "../../api/Axios";
 
 const fetchEmp = async () => {
-  const result = await fetch("http://localhost:5000/api/employeedetails");
-
-  if (!result.ok) throw Error("Error in fetching employee name");
+  const res = await Axios.get("employeedetails");
+  const result = res.data;
   // console.log("result:- ", result);
-  return result.json();
+  return result;
+};
+
+const Payheads = async () => {
+  const res = await Axios.get("FetchPayheadsforSalaStructure");
+  const result = res.data;
+  // console.log("FetchPayheadsforSalaStructure:- ", result);
+  return result;
 };
 
 const AddSalaryStructure = () => {
-  const [form, setForm] = useState({
-    Employee_ID: "",
-    Basic: "",
-    HRA: "",
-    Bonus: "",
-    Special_Allowance: "",
-    Effective_From: "",
-    Created_By: "",
-    Created_Time: "",
-    MonthlyCTC: "",
-  });
+  const [form, setForm] = useState({});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-    console.log("form data :-", JSON.stringify(form));
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    // console.log("Payhead_ID :- ", name, "Value :- ", value);
+    // console.log("form data :-", JSON.stringify(form));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("form:- ", form);
-    // console.log("Grade Name :-", JSON.stringify(form));
 
-    if (
-      !form.Basic ||
-      !form.HRA ||
-      !form.Bonus ||
-      !form.Special_Allowance ||
-      !form.Effective_From
-    ) {
-      alert("Please fill all the fields");
-      return;
-    }
+    const { Employee_ID, Effective_From, ...Payheads } = form;
 
+    const ConvertedData = Object.entries(Payheads).map(
+      ([Payhead_ID, Amount]) => ({
+        Employee_ID: Number(Employee_ID),
+        Effective_From,
+        Payhead_ID: Number(Payhead_ID),
+        Amount: Number(Amount),
+      })
+    );
+
+    setForm(ConvertedData);
+
+    // console.log("handleSubmit:- ", ConvertedData);
     try {
-      const res = await fetch(
-        "http://localhost:5000/api/add-manual-salary-structure",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form), // Convert JS object to JSON string
-        }
+      const res = await Axios.post(
+        "add-salary-structure",
+        JSON.stringify(ConvertedData)
       );
 
-      const result = await res.json(); // Read server response
-      //   console.log("result.message:- ", result.message);
+      const result = await res.data; // Read server response
+      console.log("result.message:- ", result);
 
-      if (res.ok) {
-        alert(result.message); // Success message
+      if ((result.statusText = "OK")) {
+        // alert(result.message); // Success message
+
+        Swal.fire({
+          title: "Salary Structure",
+          text: result.message,
+          icon: "success",
+        });
         setTimeout(() => {
           navigate("/payroll/salary-structure-details");
         }, 300);
       } else {
-        alert("Error: " + result.error);
+        Swal.fire({
+          title: "Salary Structure",
+          text: result.message,
+          icon: "error",
+        });
       }
     } catch (err) {
       //   console.log("Fetch failed:", err);
-      alert("Something went wrong. Check console.");
+      Swal.fire({
+        title: "Something went wrong",
+        text: result.message,
+        icon: "error",
+      });
     }
   };
 
   const { isLoading, data, error } = useQuery({
-    queryKey: ["fetchEmp"],
-    queryFn: fetchEmp,
+    queryKey: ["fetchemp"],
+    queryFn: async () => {
+      const res1 = await fetchEmp();
+      const res2 = await Payheads();
+
+      return { fetchEmp: res1, Payheads: res2 };
+    },
   });
 
-  // console.log("data:- ", data ? data[0] : "No Data");
-
-  useEffect(() => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      MonthlyCTC:
-        Number(form.Basic) +
-        Number(form.HRA) +
-        Number(form.Bonus) +
-        Number(form.Special_Allowance),
-    }));
-  }, [form.Basic, form.HRA, form.Bonus, form.Special_Allowance]);
+  // console.log("data:- ", data ? data.Payheads[0] : "");
 
   if (isLoading) <div>..Loading</div>;
   if (error) <div>..Error</div>;
+
+  useEffect(() => {
+    if (data?.Payheads) {
+      const initialForm = {};
+      data.Payheads.map((val) => {
+        // console.log(val.Payhead_Name);
+        initialForm[val.Payhead_ID] = "";
+      });
+      setForm(initialForm);
+      // console.log(initialForm);
+    }
+  }, [data]);
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
@@ -148,15 +164,17 @@ const AddSalaryStructure = () => {
                 Select{" "}
               </option>
 
-              {data?.map((val, index) => (
-                <option
-                  style={{ fontSize: "14px" }}
-                  key={val.Employee_ID}
-                  value={val.Employee_ID}
-                >
-                  {val.Employee_Name} - ({val.Employee_Code})
-                </option>
-              ))}
+              {data
+                ? data.fetchEmp.map((val, index) => (
+                    <option
+                      style={{ fontSize: "14px" }}
+                      key={val.Employee_ID}
+                      value={val.Employee_ID}
+                    >
+                      {val.Employee_Name} - ({val.Employee_Code})
+                    </option>
+                  ))
+                : ""}
             </select>
           </Box>
 
@@ -196,13 +214,16 @@ const AddSalaryStructure = () => {
               justifyContent: "center",
             }}
           >
-            <label style={{ fontSize: "14px", mr: 12 }}>Basic</label>
-            <label style={{ fontSize: "14px", mr: 12 }}>HRA</label>
-            <label style={{ fontSize: "14px", mr: 12 }}>
-              Special Allowance
-            </label>
-            <label style={{ fontSize: "14px", mr: 12 }}>Bonus</label>
-            <label style={{ fontSize: "14px", mr: 12 }}>MonthlyCTC</label>
+            {data
+              ? data.Payheads.map((val, index) => (
+                  <label
+                    key={val.Payhead_ID}
+                    style={{ fontSize: "14px", mr: 12 }}
+                  >
+                    {val.Payhead_Name}
+                  </label>
+                ))
+              : ""}
           </Box>
           {/* Payhead Amount */}
           <Box
@@ -212,147 +233,38 @@ const AddSalaryStructure = () => {
               gap: 5,
             }}
           >
-            {/* Basic */}
-            <TextField
-              required
-              onChange={handleChange}
-              name="Basic"
-              value={form.Basic}
-              placeholder="0"
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              size="small"
-              type="number"
-              sx={{
-                backgroundColor: "#E6E6FA",
+            {data
+              ? data.Payheads.map((val, index) => (
+                  <TextField
+                    required
+                    onChange={handleChange}
+                    name={val.Payhead_ID}
+                    value={form[val.Payhead_ID]}
+                    placeholder="0"
+                    id="outlined-basic"
+                    label=""
+                    variant="outlined"
+                    size="small"
+                    type="number"
+                    sx={{
+                      backgroundColor: "#E6E6FA",
 
-                ml: 0,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "black", // default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "black", // on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "black", // on focus
-                  },
-                },
-              }}
-            />
-            {/* HRA */}
-            <TextField
-              required
-              onChange={handleChange}
-              name="HRA"
-              value={form.HRA}
-              placeholder="0"
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              size="small"
-              type="number"
-              sx={{
-                ml: 0,
-                backgroundColor: "#E6E6FA",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "black", // default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "black", // on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "black", // on focus
-                  },
-                },
-              }}
-            />
-            {/* Special Allowance */}
-            <TextField
-              required
-              onChange={handleChange}
-              name="Special_Allowance"
-              value={form.Special_Allowance}
-              placeholder="0"
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              size="small"
-              type="number"
-              sx={{
-                ml: 0,
-                backgroundColor: "#E6E6FA",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "black", // default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "black", // on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "black", // on focus
-                  },
-                },
-              }}
-            />
-            {/* Bonus */}
-            <TextField
-              required
-              onChange={handleChange}
-              name="Bonus"
-              value={form.Bonus}
-              placeholder="0"
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              size="small"
-              type="number"
-              sx={{
-                backgroundColor: "#E6E6FA",
-                ml: 0,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "black", // default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "black", // on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "black", // on focus
-                  },
-                },
-              }}
-            />{" "}
-            {/* MonthltyCTC */}
-            <TextField
-              // disabled
-              // onChange={(e) => handleMonthlyCTC(e)}
-              name="MonthlyCTC"
-              value={form.MonthlyCTC}
-              placeholder="0"
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              size="small"
-              type="number"
-              sx={{
-                backgroundColor: "#E6E6FA",
-                ml: 0,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "black", // default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "black", // on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "black", // on focus
-                  },
-                },
-              }}
-            />{" "}
+                      ml: 0,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "black", // default border color
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "black", // on hover
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "black", // on focus
+                        },
+                      },
+                    }}
+                  />
+                ))
+              : ""}
           </Box>
         </Box>
         <Divider />

@@ -16,55 +16,36 @@ const columns = [
     icons: <EditIcon />,
     field: "Employee_Code",
     headerName: "Employee Code",
-    width: 130,
+    width: 200,
   },
   {
     icons: <EditIcon />,
     field: "Employee_Name",
     headerName: "Employee Name",
-    width: 200,
+    width: 300,
   },
   {
-    field: "Basic",
-    headerName: "Basic",
-    width: 100,
+    field: "Month",
+    headerName: "Month",
+    width: 130,
   },
-  {
-    field: "HRA",
-    headerName: "HRA",
-    width: 100,
-  },
-  {
-    field: "Bonus",
-    headerName: "Bonus",
-    width: 100,
-  },
-  {
-    field: "Special_Allowance",
-    headerName: "Special_Allowance",
-    width: 150,
-  },
-  // {
-  //   field: "MonthlyCTC",
-  //   headerName: "MonthlyCTC",
-  //   width: 150,
-  // },
+
   {
     field: "Effective_From",
     headerName: "Effective From",
-    width: 110,
+    width: 200,
     renderCell: (params) =>
       params.value ? format(new Date(params.value), dateFormat) : "-",
   },
   {
     field: "Created_By",
     headerName: "Created By",
-    width: 100,
+    width: 150,
   },
   {
     field: "Created_Time",
     headerName: "Created Time",
-    width: 120,
+    width: 200,
     renderCell: (params) =>
       params.value ? format(new Date(params.value), dateFormat) : "-",
   },
@@ -89,7 +70,7 @@ const SalaryStructureDetails = () => {
 
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
-  // console.log(data);
+  console.log(data);
 
   return (
     <Box sx={{}}>

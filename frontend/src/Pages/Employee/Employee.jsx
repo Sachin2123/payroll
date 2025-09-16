@@ -28,7 +28,7 @@ const columns = [
   {
     field: "Grade",
     headerName: "Grade",
-    width: 130,
+    width: 80,
   },
   {
     field: "Branch",
@@ -49,8 +49,8 @@ const columns = [
   },
   {
     field: "Confirmation_Date",
-    headerName: "Confirmation_Date",
-    width: 130,
+    headerName: "Confirmation Date",
+    width: 150,
     renderCell: (params) =>
       params.value ? format(new Date(params.value), dateFormat) : "-",
   },

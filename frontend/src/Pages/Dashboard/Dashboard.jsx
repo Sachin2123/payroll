@@ -6,17 +6,24 @@ import Axios from "../../api/Axios";
 import { useState } from "react";
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [hey, setHey] = useState();
+  const [count, setCount] = useState(-1);
 
-  const handleClick = async (e) => {
-    const t = [{ MonthlyCTC: 60000 }];
-    e.preventDefault();
-    const res = await Axios.post("/Exec-Procedure", JSON.stringify(t));
+  const handleClick = () => {
+    setCount(count + 1);
+    // console.log("Count", count);
 
-    const result = res.data;
-    setHey(result);
-    console.log("result:- ", result);
-    // console.log("result:- ", res.stringify());
+    if (count == 0) {
+      console.log("Future Month", count);
+      setCount("Future Month");
+    } else if (count == 1) {
+      console.log("Open Month", count);
+      setCount("Open Month");
+    } else if (count == 2) {
+      console.log("Closed Month", count);
+      setCount("Closed Month");
+    } else {
+      setCount(0);
+    }
   };
 
   return (
@@ -27,28 +34,8 @@ const Dashboard = () => {
           <HomeIcon onClick={() => navigate("/")} />
           <Typography sx={{ ml: 1, fontSize: "18px" }}>Dashboard</Typography>
         </Box>
-        <Button onClick={handleClick}>Calculate Overtime</Button>
-        {
-          <>
-            {hey?.map((ele, index) => (
-              <div key={index}>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    justifyContent: "space-between",
-                    padding: "20px",
-                  }}
-                >
-                  <h6>{ele.Payhead_ID}</h6>
-
-                  <h6>{ele.Payhead_CODE} </h6>
-                  <h6>{ele.Payhead_FORMULA}</h6>
-                </div>
-              </div>
-            ))}
-          </>
-        }
+        <Button onClick={handleClick}>Click for Increment</Button>
+        {count}
       </Paper>
     </Box>
   );
