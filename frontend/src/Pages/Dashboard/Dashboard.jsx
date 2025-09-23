@@ -1,41 +1,41 @@
 import Paper from "@mui/material/Paper";
-import { Box, Typography, Button } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import { useNavigate } from "react-router-dom";
-import Axios from "../../api/Axios";
-import { useState } from "react";
+import { Box } from "@mui/material";
+// import { useNavigate } from "react-router-dom";
+// import { BarChart } from "@mui/x-charts/BarChart";
+// import { PieChart } from "@mui/x-charts/PieChart";
+
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const [count, setCount] = useState(-1);
-
-  const handleClick = () => {
-    setCount(count + 1);
-    // console.log("Count", count);
-
-    if (count == 0) {
-      console.log("Future Month", count);
-      setCount("Future Month");
-    } else if (count == 1) {
-      console.log("Open Month", count);
-      setCount("Open Month");
-    } else if (count == 2) {
-      console.log("Closed Month", count);
-      setCount("Closed Month");
-    } else {
-      setCount(0);
-    }
-  };
 
   return (
     <Box sx={{}}>
       <Paper elevation={3} sx={{ height: "85vh", overflowY: "auto" }}>
-        {" "}
-        <Box sx={{ display: "flex", p: 2 }}>
-          <HomeIcon onClick={() => navigate("/")} />
-          <Typography sx={{ ml: 1, fontSize: "18px" }}>Dashboard</Typography>
+        <Box>
+          {/* <BarChart
+            xAxis={[{ data: ["group A", "group B", "group C"] }]}
+            series={[
+              { data: [4, 3, 5] },
+              { data: [1, 6, 3] },
+              { data: [2, 5, 6] },
+            ]}
+            height={300}
+          /> */}
         </Box>
-        <Button onClick={handleClick}>Click for Increment</Button>
-        {count}
+
+        <Box>
+          {/* <PieChart
+            series={[
+              {
+                data: [
+                  { id: 0, value: 10, label: "series A" },
+                  { id: 1, value: 15, label: "series B" },
+                  { id: 2, value: 20, label: "series C" },
+                ],
+              },
+            ]}
+            width={200}
+            height={200}
+          /> */}
+        </Box>
       </Paper>
     </Box>
   );

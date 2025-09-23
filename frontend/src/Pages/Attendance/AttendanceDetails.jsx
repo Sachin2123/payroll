@@ -1,6 +1,8 @@
 import Paper from "@mui/material/Paper";
 import { Box, Typography, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import IconButton from "@mui/material/IconButton";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
@@ -14,10 +16,26 @@ const dateFormat = "dd-MMM-yyyy";
 
 const columns = [
   {
+    // field: "EMPLOYEE_CODE",
+    headerName: "Action",
+    width: 100,
+    renderCell: (params) => (
+      <Box>
+        <IconButton>
+          <EditIcon sx={{ color: "black" }} />
+        </IconButton>
+
+        <IconButton>
+          <RemoveRedEyeIcon sx={{ color: "black" }} />
+        </IconButton>
+      </Box>
+    ),
+  },
+  {
     icons: <EditIcon />,
     field: "EMPLOYEE_CODE",
     headerName: "Employee Code",
-    width: 130,
+    width: 120,
   },
   {
     icons: <EditIcon />,
@@ -28,27 +46,27 @@ const columns = [
   {
     field: "MONTH",
     headerName: "Month",
-    width: 70,
+    width: 60,
   },
   {
     field: "YEAR",
     headerName: "Year",
-    width: 80,
+    width: 60,
   },
   {
     field: "TOT_DAYS",
     headerName: "Total Days",
-    width: 100,
+    width: 85,
   },
   {
     field: "WEEKLY_OFF",
     headerName: "WO",
-    width: 60,
+    width: 50,
   },
   {
     field: "PAID_HOLIDAY",
     headerName: "PH",
-    width: 60,
+    width: 50,
   },
   {
     field: "PRESENT",

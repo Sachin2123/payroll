@@ -4,6 +4,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import Swal from "sweetalert2";
 import Axios from "../../api/Axios";
 
@@ -18,20 +19,27 @@ const fetchEmployee = async () => {
   }
 };
 
-const AddAttendance = () => {
-  const yr = "Apr-2025";
-  const test = yr.trim().split("-")[1];
+const fetchMonths = async () => {
+  try {
+    const result = await Axios.get("/fetchMonths");
+    console.log(result);
+    return result.data;
+  } catch (err) {
+    console.log("Error in fetching Months");
+  }
+};
 
+const AddAttendance = () => {
   const [form, setForm] = useState({
     Employee_ID: "",
     Month: "",
     Year: "2025",
     Tot_Days: "",
     Weekly_Off: "",
-    Present: 0,
+    Present: "",
     Paid_Holiday: "",
     Absent_Days: "",
-    Days_Paid: 0,
+    Days_Paid: "",
   });
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
@@ -77,10 +85,27 @@ const AddAttendance = () => {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["fetchEmployee"],
-    queryFn: fetchEmployee,
+    queryFn: async () => {
+      const Months = await fetchMonths();
+      const Employees = await fetchEmployee();
+
+      return { Months: Months, Employees: Employees };
+    },
   });
 
-  // console.log("data:- ", d ata);
+  // console.log("data:- ", data);
+
+  useEffect(() => {
+    const Cal_Days_Paid = form.Tot_Days - form.Absent_Days;
+    const Calc_Present =
+      form.Tot_Days - form.Weekly_Off - form.Paid_Holiday - form.Absent_Days;
+    setForm((prevForm) => ({
+      ...prevForm,
+      Days_Paid: JSON.stringify(Cal_Days_Paid),
+      Present: JSON.stringify(Calc_Present),
+    }));
+    // console.log("Cal_Days_Paid:- ", Cal_Days_Paid);
+  }, [form.Tot_Days, form.Weekly_Off, form.Paid_Holiday, form.Absent_Days]);
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
@@ -151,7 +176,7 @@ const AddAttendance = () => {
                 </option>
 
                 {data
-                  ? data.map((val, index) => (
+                  ? data.Employees.map((val, index) => (
                       <option
                         style={{ fontSize: "14px" }}
                         key={val.Employee_ID}
@@ -266,9 +291,9 @@ const AddAttendance = () => {
               }}
             >
               <Typography>Select Month </Typography>
+              <Typography>Present</Typography>
               <Typography>Weekly Off</Typography>
               <Typography>Paid Holiday</Typography>
-              <Typography>Present</Typography>
             </Box>
 
             <Box
@@ -293,21 +318,48 @@ const AddAttendance = () => {
                   Select{" "}
                 </option>
 
-                {/* {data
-                  ? data.Grade.map((val, index) => (
+                {data
+                  ? data.Months.map((val, index) => (
                       <option
                         style={{ fontSize: "14px" }}
-                        key={val.Grade_ID}
-                        value={val.Grade_ID}
+                        key={val.Month}
+                        value={val.Month}
                       >
-                        {val.Grade_Name}
+                        {val.MonthYear}
                       </option>
                     ))
-                  : ""} */}
-
-                <option value="4">Apr - 2022</option>
-                <option value="5">May - 2022</option>
+                  : ""}
               </select>
+
+              {/* Present */}
+              <TextField
+                required
+                onChange={handleChange}
+                name="Present"
+                value={form.Present}
+                placeholder="Present"
+                id="outlined-basic"
+                label=""
+                variant="outlined"
+                size="small"
+                type="number"
+                sx={{
+                  backgroundColor: "#E6E6FA",
+
+                  ml: 0,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "black", // default border color
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "black", // on hover
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black", // on focus
+                    },
+                  },
+                }}
+              />
 
               {/* Weekly Off */}
               <TextField
@@ -339,36 +391,7 @@ const AddAttendance = () => {
                 }}
               />
 
-              {/* Present */}
-              <TextField
-                required
-                onChange={handleChange}
-                name="Present"
-                value={form.Present}
-                placeholder="Present"
-                id="outlined-basic"
-                label=""
-                variant="outlined"
-                size="small"
-                type="number"
-                sx={{
-                  backgroundColor: "#E6E6FA",
-
-                  ml: 0,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "black", // default border color
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "black", // on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "black", // on focus
-                    },
-                  },
-                }}
-              />
-              {/* Attendance */}
+              {/* Paid Holiday */}
               <TextField
                 required
                 onChange={handleChange}

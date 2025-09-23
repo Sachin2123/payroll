@@ -1,19 +1,37 @@
 import Paper from "@mui/material/Paper";
 import { Box, Typography, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import IconButton from "@mui/material/IconButton";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
 import * as XLSX from "xlsx";
-import Skeleton from "@mui/material/Skeleton";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 const dateFormat = "dd MMM yyyy";
 
 const columns = [
+  {
+    // field: "Employee_Code",
+    headerName: "Action",
+    width: 100,
+    renderCell: (params) => (
+      <Box>
+        <IconButton>
+          <EditIcon sx={{ color: "black" }} />
+        </IconButton>
+
+        <IconButton>
+          <RemoveRedEyeIcon sx={{ color: "black" }} />
+        </IconButton>
+      </Box>
+    ),
+  },
+
   {
     icons: <EditIcon />,
     field: "Employee_Code",
@@ -65,7 +83,7 @@ const fetchEmployee = async () => {
   return result.json();
 };
 
-const Employee = () => {
+const EmployeeDetails = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, data } = useQuery({
@@ -165,4 +183,4 @@ const Employee = () => {
   );
 };
 
-export default Employee;
+export default EmployeeDetails;

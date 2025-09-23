@@ -14,6 +14,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { Typography } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -177,7 +178,6 @@ export default function PrimarySearchAppBar() {
 
           {/* <img src="./CompanyLogo.jpg"></img> */}
           <Box sx={{ ml: 2 }}>
-            
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -187,6 +187,9 @@ export default function PrimarySearchAppBar() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
+          </Box>
+          <Box sx={{ ml: "15rem" }}>
+            <Typography>Welcome, Sachin Vishwakarma (80258) </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>

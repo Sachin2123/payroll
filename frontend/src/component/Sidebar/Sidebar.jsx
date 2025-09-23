@@ -24,7 +24,7 @@ const Sidebar = () => {
     },
     {
       name: "Employee",
-      path: "/employee",
+      path: "/employeedetails",
       submenu: [
         { name: "Employee Master", path: "/employee/add" },
         { name: "CC Master", path: "/cc" },

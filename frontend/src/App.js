@@ -1,6 +1,6 @@
 import Sidebar from "./component/Sidebar/Sidebar";
 import Header from "./component/Header/Header";
-import Employee from "./Pages/Employee/Employee";
+import EmployeeDetails from "./Pages/Employee/EmployeeDetails";
 import AddEmployee from "./Pages/Employee/AddEmployee";
 import Leave from "./Pages/Leave/Leave";
 import AttendanceDetails from "./Pages/Attendance/AttendanceDetails";
@@ -73,7 +73,10 @@ function App() {
                     path="/designationdetails"
                     element={<DesignationDetails />}
                   />
-                  <Route path="/employee" element={<Employee />} />
+                  <Route
+                    path="/employeedetails"
+                    element={<EmployeeDetails />}
+                  />
                   <Route path="/addemployee" element={<AddEmployee />} />
                   <Route path="/leave" element={<Leave />} />
                   <Route
