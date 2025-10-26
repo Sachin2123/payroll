@@ -1,9 +1,12 @@
 const express = require("express");
+const dbconfig = require("./Config/dbconfig");
 const sql = require("mssql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const swagger = require("./swagger/swagger");
 
 const app = express();
+swagger(app);
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -29,7 +32,6 @@ app.get("/", async (req, res) => {
 });
 
 // Add Employee Master
-
 app.post("/api/addemployee", async (req, res) => {
   const {
     Employee_Code,
@@ -81,28 +83,10 @@ app.post("/api/addemployee", async (req, res) => {
 });
 
 // Get EMPLOYEE Master Details
-
 app.get("/api/employeedetails", async (req, res) => {
   try {
     await sql.connect(config);
-
-    // const result = await sql.query`SELECT
-    //   e.Employee_Code,
-    //   e.Employee_ID,
-    //   e.Employee_Name,
-    //   e.Joining_Date,
-    //   e.Birth_Date,
-    //   e.Department,
-    //   e.Grade,
-    //   e.Confirmation_Date,
-    //   e.Branch,
-    //   c.Company_Name
-    // FROM
-    //   Employee e
-    // JOIN
-    //   Company c ON e.Company_Name = c.Company_id;`;
-
-    const result = await sql.query`EXEC Proc_EmployeeMasterDetails`;
+    const result = await sql.query`SELECT * FROM EmployeeMasterDetails_View`;
 
     res.json(result.recordset);
   } catch (err) {
@@ -111,6 +95,215 @@ app.get("/api/employeedetails", async (req, res) => {
   }
 });
 
+// Get Withdrawal Type for Withdrawal
+app.get("/api/withdrawal-type", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result = await sql.query`SELECT * FROM Withdrawal_Type_View`;
+    // console.log("result.recordset:- ", result.recordset);
+    return res.json(result.recordset);
+  } catch (err) {
+    return res.json({ message: "Error in fething Withdrawal_Type", err });
+  }
+});
+
+/** Fetch Reaon for adding withdrawal API Documentation
+ * @swagger
+ * /api/Reason:
+ *   get:
+ *     summary: Fetch reason
+ *     description: Will fetch the reasons while adding new employee withdrawal record (resignation/notice/exit/e-separation) to the database.
+ *
+ *
+ *
+ *     responses:
+ *       200:
+ *         description: Reasons fetched successfully !
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Reasons fetched successfully !"
+ *                 statusText:
+ *                   type: string
+ *                   example: "OK"
+ *       400:
+ *         description: Error in fetching reasons
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error in fetching reasons"
+ *                 statusText:
+ *                   type: string
+ *                   example: "!OK"
+ */
+
+// Get reason for withdrawal
+app.get("/api/Reason", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result = await sql.query`SELECT * FROM Reason_View`;
+    return res.json(result.recordset);
+  } catch (err) {
+    return res.json({ message: "Error in fetching Reason", err });
+  }
+});
+
+// Get process Type for Withdrawal Entry
+app.get("/api/process-type", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result = await sql.query`SELECT * FROM ProcessType_View`;
+    return res.json(result.recordset);
+  } catch (err) {
+    return res.json({ message: "Error in fetching ProcessType", err });
+  }
+});
+
+/** AddWithdrawal API Documentation
+ * @swagger
+ * /api/addwithdrawal:
+ *   post:
+ *     summary: Add a new withdrawal request
+ *     description: Adds a new employee withdrawal record (resignation/notice/exit/e-separation) to the database.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Employee_ID:
+ *                 type: integer
+ *                 example: 27
+ *               Resignation_Date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2025-10-01"
+ *               Last_Working_Date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2025-10-31"
+ *               Notice_Period_Days:
+ *                 type: FLOAT
+ *                 example: 30
+ *               Withdrawal_Type_Name:
+ *                 type: string
+ *                 example: "Resignation"
+ *               ProcessType:
+ *                 type: string
+ *                 example: "Process Salary"
+ *               Reason:
+ *                 type: string
+ *                 example: "Better Opportunity"
+ *               Remark:
+ *                 type: string
+ *                 example: "Handled by HR"
+ *     responses:
+ *       200:
+ *         description: Withdrawal added successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Withdrawal added successfully"
+ *                 statusText:
+ *                   type: string
+ *                   example: "OK"
+ *       400:
+ *         description: Error in adding Withdrawal Entry
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error in adding Withdrawal Entry"
+ *                 statusText:
+ *                   type: string
+ *                   example: "!OK"
+ */
+
+app.post("/api/addwithdrawal", async (req, res) => {
+  console.log("req.body:- ", req.body);
+
+  const {
+    Employee_ID,
+    Resignation_Date,
+    Last_Working_Date,
+    Notice_Period_Days,
+    Withdrawal_Type_Name,
+    ProcessType,
+    Reason,
+    Remark,
+  } = req.body;
+
+  const Created_By = 1;
+  const Created_Time = new Date();
+
+  await sql.connect(config);
+
+  try {
+    // const result = await sql.query`
+
+    // EXEC Proc_AddWithdrawal
+    // ${Employee_ID}, ${Resignation_Date}, ${Last_Working_Date},
+    // ${Notice_Period_Days}, ${Withdrawal_Type_Name},
+    // ${ProcessType}, ${Reason}, ${Remark}, ${Created_By}, ${Created_Time}
+    // `;
+
+    const result = await sql.query`
+    IF EXISTS (SELECT 1 FROM ADDWITHDRAWAL WHERE Employee_ID =  ${Employee_ID})
+    BEGIN
+    THROW 50001,'Cannot insert duplicate entry',1
+    END
+    ELSE 
+    BEGIN
+    
+    INSERT INTO AddWithdrawal 
+(Employee_ID,Resignation_Date,Last_Working_Date,Notice_Period_Days,Withdrawal_Type_Name,ProcessType,Reason,Remark,Created_By,Created_Time)
+VALUES
+(${Employee_ID},
+${Resignation_Date},
+${Last_Working_Date},
+${Notice_Period_Days},
+${Withdrawal_Type_Name},
+${ProcessType},
+${Reason},
+${Remark},
+${Created_By},
+${Created_Time})
+END
+
+`;
+    return res.json({
+      message: "Withdrawal added successfully",
+      statusText: "OK",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      message: err.message || "Error in adding Withdrawal Entry",
+      statusText: "!OK",
+    });
+  }
+});
+
+// Add Company
 app.post("/api/addcompany", async (req, res) => {
   const { Company_Name } = req.body;
   // console.log("Company_Name:- ", Company_Name);
@@ -134,14 +327,15 @@ app.post("/api/addcompany", async (req, res) => {
 app.get("/api/companydetails", async (req, res) => {
   try {
     await sql.connect(config);
-    const result = await sql.query`SELECT * FROM COMPANY`;
+    const result = await sql.query`SELECT * FROM Company_View`;
     res.json(result.recordset);
     // console.log("result:- ", result.recordsets);
   } catch (err) {
-    res.send("Error while fetching employee master details", err.message);
+    res.send("Error while fetching company master details", err.message);
   }
 });
 
+// Branch Add
 app.post("/api/addbranch", async (req, res) => {
   const { Branch_Name } = req.body;
   console.log(Branch_Name);
@@ -165,11 +359,12 @@ app.post("/api/addbranch", async (req, res) => {
   }
 });
 
+// Branch Details
 app.get("/api/branchdetails", async (req, res) => {
   await sql.connect(config);
 
   try {
-    const result = await sql.query`SELECT * FROM BRANCH`;
+    const result = await sql.query`SELECT * FROM Branch_View`;
 
     res.json(result.recordset);
   } catch (err) {
@@ -203,7 +398,7 @@ app.get("/api/departmentdetails", async (req, res) => {
   await sql.connect(config);
 
   try {
-    const result = await sql.query`SELECT * FROM DEPARTMENT`;
+    const result = await sql.query`SELECT * FROM Department_View`;
     // console.log(result);
     res.json(result.recordset);
   } catch (err) {
@@ -238,7 +433,7 @@ app.get("/api/gradedetails", async (req, res) => {
   await sql.connect(config);
 
   try {
-    const result = await sql.query`SELECT * FROM GRADE`;
+    const result = await sql.query`SELECT * FROM Grade_View`;
 
     res.send(result.recordset);
   } catch (err) {
@@ -270,7 +465,7 @@ app.get("/api/designationdetails", async (req, res) => {
   await sql.connect(config);
 
   try {
-    const result = await sql.query`SELECT * FROM DESIGNATION`;
+    const result = await sql.query`SELECT * FROM Designation_View`;
 
     res.json(result.recordset);
   } catch (err) {
@@ -282,54 +477,31 @@ app.get("/api/designationdetails", async (req, res) => {
 app.post("/api/add-salary-structure", async (req, res) => {
   await sql.connect(config);
 
-  const {
-    Employee_ID,
-    Basic,
-    HRA,
-    Special_Allowance,
-    Bonus,
-    Effective_From,
-    MonthlyCTC,
-  } = req.body;
   const Created_By = 1;
   const Created_Time = new Date();
 
   console.log("req.body:- ", req.body);
+  // console.log("req.body.length:- ", req.body.length);
+
+  // Created This function to achieve repetative Structure_ID
+  const RepatativeStructure_ID =
+    await sql.query`SELECT ISNULL(MAX(Structure_ID),0)+1 as NewID from SALARYSTRUCTURE`;
+  const Structure_ID = RepatativeStructure_ID.recordset[0].NewID;
+  // console.log("Structure_ID:- ", RepatativeStructure_ID.recordset[0].NewID);
 
   try {
-    const result =
-      await sql.query`INSERT INTO SALARYSTRUCTURE (Employee_ID,Basic,HRA,Special_Allowance,Bonus,Effective_From,Created_By,Created_Time)
-    values (${Employee_ID},${Basic},${HRA},${Special_Allowance},${Bonus},${Effective_From},${Created_By},${Created_Time})`;
-    res.send({ message: "Salary Structure Created Successfully" });
+    for (let i = 0; i < req.body.length; i++) {
+      const { Employee_ID, Effective_From, Payhead_ID, Amount } = req.body[i];
+      // console.log("Inserting Row Data:- ", req.body[i]);
+      const result =
+        await sql.query`EXEC Proc_AddSalaryStructure ${Structure_ID},
+    ${Employee_ID},${Effective_From},${Payhead_ID},${Amount},${Created_By},${Created_Time}`;
+    }
+    console.log("Salary Structure inserted successfully");
+    res.send({ message: "Salary Structure inserted successfully" });
   } catch (err) {
-    res.send({ message: "Error in Salary Structure creation", err });
-  }
-});
-
-// Add Manual Salary Structure
-app.post("/api/add-manual-salary-structure", async (req, res) => {
-  await sql.connect(config);
-
-  const {
-    Employee_ID,
-    Basic,
-    HRA,
-    Special_Allowance,
-    Bonus,
-    Effective_From,
-    MonthlyCTC,
-  } = req.body;
-  const Created_By = 1;
-  const Created_Time = new Date();
-
-  console.log("req.body:- ", req.body);
-
-  try {
-    const result =
-      await sql.query`EXEC Proc_CTC_Calculate ${Employee_ID}, ${MonthlyCTC}, ${Effective_From}`;
-    res.send({ message: "Salary Structure Created Successfully" });
-  } catch (err) {
-    res.send({ message: "Error in Salary Structure creation", err });
+    // console.log("Error in inserting salary structure");
+    res.send({ message: "Error in inserting salary structure", err });
   }
 });
 
@@ -338,7 +510,9 @@ app.get("/api/salary-structure-details", async (req, res) => {
   await sql.connect(config);
 
   try {
-    const result = await sql.query`Proc_SalaryStructureDetails`;
+    // const result = await sql.query`Proc_SalaryStructureDetails`;
+
+    const result = await sql.query`EXEC Proc_SalaryStructureDetails`;
     // console.log(result.recordset);
     res.json(result.recordset);
   } catch (err) {
@@ -391,12 +565,14 @@ app.post("/api/addpayheads", async (req, res) => {
   }
 });
 
-// Payhead Details Fetch
+// Payhead Details will Fetch on the screen of created payheads
 app.get("/api/payheaddetails", async (req, res) => {
   await sql.connect(config);
 
   try {
-    const result = await sql.query`select * from Payheads`;
+    const result =
+      await sql.query`select * from Payheads order by payhead_id asc
+`;
     // console.log(result);
     res.json(result.recordset);
   } catch (err) {
@@ -491,16 +667,48 @@ app.get("/api/grade-company", async (req, res) => {
   }
 });
 
-app.post("/api/Exec-Procedure", async (req, res) => {
-  await sql.connect(config);
-  // console.log(req.body);
-  const { MonthlyCTC } = req.body;
+// Add Monthly Attendance
+app.post("/api/add-month-attendance", async (req, res) => {
+  const {
+    Employee_ID,
+    Month,
+    Year,
+    Tot_Days,
+    Weekly_Off,
+    Paid_Holiday,
+    Absent_Days,
+    Days_Paid,
+    Present,
+  } = req.body;
+  const Created_By = 1;
+  const Created_Time = new Date();
+  await sql.query(config);
+
+  // console.log("req.body:- ", req.body);
+
   try {
-    const result = await sql.query`EXEC [CURSOR] ${MonthlyCTC}`;
-    // console.log("result.recordset:- ", result.recordset);
-    res.json(result.recordset);
+    const result = await sql.query`EXEC Proc_AddMonthlyAttendance
+  ${Employee_ID},
+  ${Month},
+  ${Year},
+  ${Tot_Days},
+  ${Weekly_Off},
+  ${Paid_Holiday},
+  ${Absent_Days},
+  ${Days_Paid},
+  ${Present},
+  ${Created_By},
+  ${Created_Time}`;
+    res.json({
+      message: "MonthlyAttendance Added Successfully",
+      statusText: "OK",
+    });
   } catch (err) {
-    res.json("Error in executing employeedetails procedure");
+    console.log("Error in adding monthly attendance:- ", err);
+    res.json({
+      message: err.message || "Error in adding MonthlyAttendance",
+      statusText: "!OK",
+    });
   }
 });
 
@@ -513,7 +721,72 @@ app.get("/api/FetchMonthlyAttendance", async (req, res) => {
     // console.log("result:- ", result.recordset);
     res.json(result.recordset);
   } catch (err) {
+    // console.log("Error :-", err);
     res.json({ message: "Error in Fetching Monthly Attendance" });
+  }
+});
+
+// During Salary Structure define payheads will fetch so that user can define the salary structure as per their requirements
+app.get("/api/FetchPayheadsforSalaStructure", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result = await sql.query`EXEC Proc_FetchPayheadsforSalaStructure`;
+    // console.log("/api/FetchPayheadsforSalaStructure:- ", result.recordset);
+    res.json(result.recordset);
+  } catch (err) {
+    res.json("Error while fetching payheads");
+  }
+});
+
+// Fetch Months
+// This Will fetch All the Months with Year in order to add Manual Attendance, Arrear, Variable Pay etc.
+app.get("/api/FetchMonths", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result = await sql.query`EXEC Proc_FetchMonths`;
+    // console.log(result.recordset);
+    res.json(result.recordset);
+  } catch (err) {
+    res.json("Error in fetching months");
+  }
+});
+
+// Fetch only Defined Salary Structure Employees
+app.get("/api/Defined-SalaryStructure-Employee", async (req, res) => {
+  await sql.connect(config);
+
+  try {
+    const result = await sql.query`EXEC SalaryStructureEmployee`;
+    // console.log(result.recordset);
+    res.json(result.recordset);
+  } catch (err) {
+    json.send({ message: "Error in fetching Employees" });
+  }
+});
+
+// Salary Porcess page logic
+app.post("/api/process-Salary", async (req, res) => {
+  await sql.connect(config);
+  const { Employee_ID, Month } = req.body;
+  const { Month: monthNumber, Year } = JSON.parse(Month);
+  const Created_By = 1;
+  const Created_Time = new Date();
+
+  // console.log("req.body:- ", req.body);
+
+  try {
+    const result =
+      await sql.query`EXEC Proc_MonthlySalaryCalculate ${Employee_ID}, ${monthNumber}, ${Year}`;
+    console.log("Salary Processed Data:- ", result.recordset);
+    res.send({ message: "Salary Processed Successfully!", statusText: "OK" });
+  } catch (err) {
+    console.log("Salary Process Eror:- ", err);
+    res.send({
+      statusText: "!OK",
+      message: err.message || "Error in Salary Process",
+    });
   }
 });
 

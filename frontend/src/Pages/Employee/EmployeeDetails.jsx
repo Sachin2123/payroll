@@ -127,7 +127,7 @@ const EmployeeDetails = () => {
             </Button>
             <Button
               className="btn-upload"
-              // onClick={() => navigate("upload")}
+              onClick={() => navigate("/addWithdrawal")}
               sx={{
                 boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
                 color: "white",
@@ -135,7 +135,7 @@ const EmployeeDetails = () => {
                 padding: "8px 14px",
               }}
             >
-              Upload
+              E - Separation
             </Button>
             <Button
               className="btn-export"
@@ -149,7 +149,7 @@ const EmployeeDetails = () => {
             >
               Export
             </Button>
-            <Button
+            {/* <Button
               className="btn-utilities"
               // onClick={() => navigate("/export")}
               sx={{
@@ -160,7 +160,7 @@ const EmployeeDetails = () => {
               }}
             >
               Utilities
-            </Button>
+            </Button> */}
           </Box>
         </Box>
         <Box sx={{ mt: 8, mb: 1, display: "flex", justifyContent: "center" }}>

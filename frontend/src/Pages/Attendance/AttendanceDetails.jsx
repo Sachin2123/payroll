@@ -3,6 +3,7 @@ import { Box, Typography, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import IconButton from "@mui/material/IconButton";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
@@ -26,7 +27,7 @@ const columns = [
         </IconButton>
 
         <IconButton>
-          <RemoveRedEyeIcon sx={{ color: "black" }} />
+          <DeleteOutlineIcon sx={{ color: "red" }} />
         </IconButton>
       </Box>
     ),
@@ -43,15 +44,15 @@ const columns = [
     headerName: "Employee Name",
     width: 200,
   },
+  // {
+  //   field: "MONTH",
+  //   headerName: "Month",
+  //   width: 60,
+  // },
   {
-    field: "MONTH",
+    field: "Month_In_Words",
     headerName: "Month",
-    width: 60,
-  },
-  {
-    field: "YEAR",
-    headerName: "Year",
-    width: 60,
+    width: 90,
   },
   {
     field: "TOT_DAYS",
@@ -76,25 +77,25 @@ const columns = [
   {
     field: "ABSENT_DAYS",
     headerName: "Absent",
-    width: 80,
+    width: 75,
   },
 
   {
     field: "DAYS_PAID",
     headerName: "Days Paid",
-    width: 100,
+    width: 85,
     // renderCell: (params) =>
     //   params.value ? format(new Date(params.value), dateFormat) : "-",
   },
   {
     field: "CREATED_BY",
     headerName: "Created By",
-    width: 100,
+    width: 90,
   },
   {
     field: "CREATED_TIME",
     headerName: "Created Time",
-    width: 120,
+    width: 105,
     renderCell: (params) =>
       params.value ? format(new Date(params.value), dateFormat) : "-",
   },
@@ -103,7 +104,7 @@ const columns = [
 const FetchMonthlyAttendance = async () => {
   try {
     const result = await Axios.get("/FetchMonthlyAttendance");
-    // console.log(result.data);
+    console.log(result.data);
     return result.data;
   } catch (err) {
     console.log("Error in fetching Monthly Attendance", err);

@@ -1,40 +1,61 @@
 import Paper from "@mui/material/Paper";
 import { Box } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
-// import { BarChart } from "@mui/x-charts/BarChart";
-// import { PieChart } from "@mui/x-charts/PieChart";
+import { useAPIContext } from "../../Context/APIContext";
+import { useState, useEffect } from "react";
 
-const Dashboard = () => {
+const Dashboard = ({ children }) => {
+  const [data, setData] = useState([]);
+  const [show, setShow] = useState("true");
+  const [hideData, setHideData] = useState("Show Data");
+
+  const { components } = useAPIContext();
+  const { EmployeeMasterDetailsAPI } = useAPIContext();
+  const { ButtonComponent } = components;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await EmployeeMasterDetailsAPI();
+      setData(res);
+      // console.log("res:- ", res);
+      return res;
+    };
+    fetchData();
+  }, []);
+
+  // console.log(data)
+
+  const handleShow = () => {
+    setShow(!show);
+    setHideData(!hideData);
+    // console.log("show:- ", show);
+    // console.log("Clicked");
+  };
 
   return (
     <Box sx={{}}>
       <Paper elevation={3} sx={{ height: "85vh", overflowY: "auto" }}>
         <Box>
-          {/* <BarChart
-            xAxis={[{ data: ["group A", "group B", "group C"] }]}
-            series={[
-              { data: [4, 3, 5] },
-              { data: [1, 6, 3] },
-              { data: [2, 5, 6] },
-            ]}
-            height={300}
-          /> */}
-        </Box>
+          {/* {data.map((val, index) => (
+            <ol key={val.Employee_ID}>
+              <li>
+                {val.Employee_ID} - {val.Employee_Name}
+              </li>
+            </ol>
+          ))} */}
 
-        <Box>
-          {/* <PieChart
-            series={[
-              {
-                data: [
-                  { id: 0, value: 10, label: "series A" },
-                  { id: 1, value: 15, label: "series B" },
-                  { id: 2, value: 20, label: "series C" },
-                ],
-              },
-            ]}
-            width={200}
-            height={200}
-          /> */}
+          <ButtonComponent onClick={handleShow} sx={{ m: 3 }}>
+            {!hideData ? "Hide Data" : "Show Data"}
+          </ButtonComponent>
+
+          {!show
+            ? data.map((val, index) => (
+                <ol key={val.Employee_ID}>
+                  <li>
+                    {val.Employee_ID} - {val.Employee_Name}
+                  </li>
+                </ol>
+              ))
+            : ""}
         </Box>
       </Paper>
     </Box>
