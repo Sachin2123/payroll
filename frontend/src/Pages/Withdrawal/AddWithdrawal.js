@@ -77,13 +77,13 @@ const AddWithdrawal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(form.Company_Name);
-    console.log("form data :-", JSON.stringify(form));
+    // console.log("form data :-", JSON.stringify(form));
 
     try {
       const res = await Axios.post("addwithdrawal", JSON.stringify(form));
 
       const result = await res.data; // Read server response
-      console.log("result.message:- ", result);
+      // console.log("result.message:- ", result);
 
       if (result.statusText === "OK") {
         // alert(result.message); // Success message
@@ -94,7 +94,7 @@ const AddWithdrawal = () => {
           icon: "success",
         });
         setTimeout(() => {
-          // navigate("/employeedetails");
+          navigate("/WithdrawalDetails");
         }, 300);
       } else if (result.statusText === "!OK") {
         Swal.fire({

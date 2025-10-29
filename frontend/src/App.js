@@ -14,6 +14,9 @@ const AddEmployee = lazy(() => import("./Pages/Employee/AddEmployee"));
 const EmployeeDetails = lazy(() => import("./Pages/Employee/EmployeeDetails"));
 
 const AddWithdrawal = lazy(() => import("./Pages/Withdrawal/AddWithdrawal"));
+const WithdrawalDetails = lazy(() =>
+  import("./Pages/Withdrawal/WithdrawalDetails")
+);
 
 const Leave = lazy(() => import("./Pages/Leave/Leave"));
 
@@ -118,6 +121,10 @@ function App() {
                       element={<EmployeeDetails />}
                     />
                     <Route path="/addWithdrawal" element={<AddWithdrawal />} />
+                    <Route
+                      path="/WithdrawalDetails"
+                      element={<WithdrawalDetails />}
+                    />
                     <Route path="/leave" element={<Leave />} />
                     <Route
                       path="/attendance/attendancedetails"

@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
+import Axios from "../../api/Axios";
 import * as XLSX from "xlsx";
 
 const paginationModel = { page: 0, pageSize: 5 };
@@ -44,46 +45,39 @@ const columns = [
     width: 180,
   },
   {
-    field: "Grade",
-    headerName: "Grade",
-    width: 80,
-  },
-  {
-    field: "Branch",
-    headerName: "Branch",
-    width: 130,
-  },
-  {
-    field: "Department",
-    headerName: "Department",
-    width: 130,
-  },
-  {
-    field: "Joining_Date",
-    headerName: "Joining Date",
-    width: 130,
-    renderCell: (params) =>
-      params.value ? format(new Date(params.value), dateFormat) : "-",
-  },
-  {
-    field: "Confirmation_Date",
-    headerName: "Confirmation Date",
+    field: "Resignation_Date",
+    headerName: "Resignation Date",
     width: 150,
-    renderCell: (params) =>
-      params.value ? format(new Date(params.value), dateFormat) : "-",
   },
-
-  { field: "Company_Name", headerName: "Company Name", width: 200 },
+  {
+    field: "Last_Working_Date",
+    headerName: "Last Working Date",
+    width: 150,
+  },
+  {
+    field: "Withdrawal_Type_Name",
+    headerName: "Withdrawal Type",
+    width: 150,
+  },
+  {
+    field: "Reason",
+    headerName: "Reason",
+    width: 150,
+  },
+  {
+    field: "Created_Date",
+    headerName: "Created_Date",
+    width: 150,
+  },
 ];
 
 const fetchEmployee = async () => {
-  const result = await fetch("http://localhost:5000/api/employeedetails");
-  if (!result.ok) throw new Error("error in fetching data");
-  // console.log(result.recordset);
-  return result.json();
+  const result = await Axios.get("withdrawaldetails");
+  console.log("result.data:- ", result.data);
+  return result.data;
 };
 
-const EmployeeDetails = () => {
+const WithdrawalDetails = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, data } = useQuery({
@@ -110,12 +104,12 @@ const EmployeeDetails = () => {
         <Box sx={{ display: "flex", p: 2, justifyContent: "space-between" }}>
           <Box sx={{ display: "flex" }}>
             <HomeIcon onClick={() => navigate("/")} />
-            <Typography sx={{ ml: 1, fontSize: "18px" }}>Employee</Typography>
+            <Typography sx={{ ml: 1, fontSize: "18px" }}>Withdrawal</Typography>
           </Box>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button
               className="btn-addemployee"
-              onClick={() => navigate("/addemployee")}
+              onClick={() => navigate("/addwithdrawal")}
               sx={{
                 boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
                 color: "white",
@@ -123,20 +117,9 @@ const EmployeeDetails = () => {
                 padding: "8px 14px",
               }}
             >
-              Add Employee
+              Add Withdrawal
             </Button>
-            <Button
-              className="btn-upload"
-              onClick={() => navigate("/withdrawaldetails")}
-              sx={{
-                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
-                color: "white",
-                background: "black",
-                padding: "8px 14px",
-              }}
-            >
-              Withdrawal
-            </Button>
+
             <Button
               className="btn-export"
               onClick={exportEmployee}
@@ -183,4 +166,4 @@ const EmployeeDetails = () => {
   );
 };
 
-export default EmployeeDetails;
+export default WithdrawalDetails;
