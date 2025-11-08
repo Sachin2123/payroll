@@ -82,7 +82,7 @@ const AddEmployee = () => {
           icon: "success",
         });
         setTimeout(() => {
-          navigate("/employee");
+          navigate("/employeedetails");
         }, 300);
       } else {
         alert("Error: " + result.error);

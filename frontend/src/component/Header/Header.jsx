@@ -12,9 +12,13 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Typography } from "@mui/material";
+import Timer from "../Timer/Timer";
+import Date from "../DateTime/DateTime";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -167,16 +171,7 @@ export default function PrimarySearchAppBar() {
           >
             {/* <MenuIcon /> */}
           </IconButton>
-          {/* <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Company Logo
-          </Typography> */}
 
-          {/* <img src="./CompanyLogo.jpg"></img> */}
           <Box sx={{ ml: 2 }}>
             <Search>
               <SearchIconWrapper>
@@ -188,8 +183,23 @@ export default function PrimarySearchAppBar() {
               />
             </Search>
           </Box>
-          <Box sx={{ ml: "15rem" }}>
+          <Box
+            sx={{
+              ml: "6rem",
+              display: "flex",
+              gap: 8,
+            }}
+          >
             <Typography>Welcome, Sachin Vishwakarma (80258) </Typography>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Date />
+              <CalendarMonthIcon />
+            </Box>
+
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Timer />
+              <AccessAlarmIcon />
+            </Box>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
