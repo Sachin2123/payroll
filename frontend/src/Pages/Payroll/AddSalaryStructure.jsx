@@ -17,7 +17,7 @@ const fetchEmp = async () => {
 const Payheads = async () => {
   const res = await Axios.get("FetchPayheadsforSalaStructure");
   const result = res.data;
-  // console.log("FetchPayheadsforSalaStructure:- ", result);
+  console.log("FetchPayheadsforSalaStructure:- ", result);
   return result;
 };
 
@@ -110,7 +110,7 @@ const AddSalaryStructure = () => {
       const initialForm = {};
       data.Payheads.map((val) => {
         // console.log(val.Payhead_Name);
-        initialForm[val.Payhead_ID] = "";
+        initialForm[val.Payhead_ID] = "0";
       });
       setForm(initialForm);
       // console.log(initialForm);
@@ -198,9 +198,7 @@ const AddSalaryStructure = () => {
             gap: 30,
             mt: 5,
             mb: 5,
-            // backgroundColor: "#E6E6FA",
-            // pt: 5,
-            // pb: 5,
+
             p: 5,
           }}
         >
@@ -225,7 +223,7 @@ const AddSalaryStructure = () => {
                 ))
               : ""}
           </Box>
-          {/* Payhead Amount */}
+          {/* Payhead Amount Field*/}
           <Box
             sx={{
               display: "flex",
@@ -235,34 +233,97 @@ const AddSalaryStructure = () => {
           >
             {data
               ? data.Payheads.map((val, index) => (
-                  <TextField
-                    required
-                    onChange={handleChange}
-                    name={val.Payhead_ID}
-                    value={form[val.Payhead_ID]}
-                    placeholder="0"
-                    id="outlined-basic"
-                    label=""
-                    variant="outlined"
-                    size="small"
-                    type="number"
-                    sx={{
-                      backgroundColor: "#E6E6FA",
+                  <Typography>
+                    {val.Payhead_Type === "Deduction" ? (
+                      <TextField
+                        disabled
+                        required
+                        onChange={handleChange}
+                        name={val.Payhead_ID}
+                        value={form[val.Payhead_ID]}
+                        placeholder="0"
+                        id="outlined-basic"
+                        label=""
+                        variant="outlined"
+                        size="small"
+                        type="number"
+                        sx={{
+                          backgroundColor: "#E6E6FA",
 
-                      ml: 0,
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "black", // default border color
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "black", // on hover
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "black", // on focus
-                        },
-                      },
-                    }}
-                  />
+                          ml: 0,
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: "black", // default border color
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "black", // on hover
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "black", // on focus
+                            },
+                          },
+                        }}
+                      />
+                    ) : (
+                      <TextField
+                        required
+                        onChange={handleChange}
+                        name={val.Payhead_ID}
+                        value={form[val.Payhead_ID]}
+                        placeholder="0"
+                        id="outlined-basic"
+                        label=""
+                        variant="outlined"
+                        size="small"
+                        type="number"
+                        sx={{
+                          backgroundColor: "#E6E6FA",
+
+                          ml: 0,
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: "black", // default border color
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "black", // on hover
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "black", // on focus
+                            },
+                          },
+                        }}
+                      />
+                    )}
+                  </Typography>
+
+                  // <TextField
+                  //   required
+                  //   onChange={handleChange}
+                  //   name={val.Payhead_ID}
+                  //   value={form[val.Payhead_ID]}
+                  //   placeholder="0"
+                  //   id="outlined-basic"
+                  //   label=""
+                  //   variant="outlined"
+                  //   size="small"
+                  //   type="number"
+                  //   sx={{
+                  //     backgroundColor: "#E6E6FA",
+
+                  //     ml: 0,
+                  //     "& .MuiOutlinedInput-root": {
+                  //       "& fieldset": {
+                  //         borderColor: "black", // default border color
+                  //       },
+                  //       "&:hover fieldset": {
+                  //         borderColor: "black", // on hover
+                  //       },
+                  //       "&.Mui-focused fieldset": {
+                  //         borderColor: "black", // on focus
+                  //       },
+                  //     },
+                  //   }}
+                  // />
                 ))
               : ""}
           </Box>

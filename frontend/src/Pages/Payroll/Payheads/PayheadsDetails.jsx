@@ -7,8 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Edit } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-// import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import Axios from "../../../api/Axios";
 // import { format } from "date-fns";
 
 const paginationModel = { page: 0, pageSize: 10 };
@@ -16,10 +15,9 @@ const paginationModel = { page: 0, pageSize: 10 };
 // const dateFormat = "dd-MMM-yyyy";
 
 const fetchPayheadDetails = async () => {
-  const result = await fetch("http://localhost:5000/api/payheaddetails");
-  if (!result.ok) throw new Error("error in fetching payheads");
-  // console.log(result);
-  return result.json();
+  const result = await Axios.get("/payheaddetails");
+  // console.log("result:- ", result);
+  return result.data;
 };
 
 const PayheadsDetails = () => {

@@ -55,7 +55,7 @@ const fetchSalaryStructrueDetails = async () => {
   const result = await fetch(
     "http://localhost:5000/api/salary-structure-details"
   );
-  if (!result.ok) throw new Error("error in fetching grade data");
+  if (!result.ok) throw new Error("error in fetching salary structure data");
   // console.log(result);
   return result.json();
 };
@@ -70,7 +70,7 @@ const SalaryStructureDetails = () => {
 
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
-  console.log(data);
+  // console.log(data);
 
   return (
     <Box sx={{}}>
@@ -94,6 +94,19 @@ const SalaryStructureDetails = () => {
             >
               Monthly Attendance
             </Button>
+            <Button
+              className="btn-addgrade"
+              onClick={() => navigate("/payroll/VariableMasterDetails")}
+              sx={{
+                boxShadow: "2px 2px 2px 1px rgba(0, 0, 255, .2)",
+                color: "white",
+                background: "black",
+                padding: "8px 14px",
+              }}
+            >
+              Variable
+            </Button>
+
             <Button
               className="btn-addgrade"
               onClick={() => navigate("/payroll/add-salary-structure")}
@@ -138,7 +151,7 @@ const SalaryStructureDetails = () => {
 
           <DataGrid
             rows={
-              data ? data.map((row) => ({ ...row, id: row.Employee_ID })) : []
+              data ? data.map((row) => ({ ...row, id: row.Structure_ID })) : []
             }
             // rows={data}
             columns={columns}

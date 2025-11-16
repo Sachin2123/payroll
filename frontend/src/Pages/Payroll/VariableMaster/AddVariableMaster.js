@@ -4,9 +4,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import Swal from "sweetalert2";
-import Axios from "../../api/Axios";
+import Axios from "../../../api/Axios";
 
 const fetchEmployee = async () => {
   try {
@@ -29,43 +28,49 @@ const fetchMonths = async () => {
   }
 };
 
-const AddAttendance = () => {
+const fetchPayhead = async () => {
+  try {
+    const result = await Axios.get("/payheaddetails");
+    // console.log(result.data);
+    return result.data;
+  } catch (err) {
+    console.log("Error in fetching Payhead Details");
+  }
+};
+
+const AddVariableMaster = () => {
   const [form, setForm] = useState({
     Employee_ID: "",
     Month: "",
-    Year: "2025",
-    Tot_Days: "",
-    Weekly_Off: "",
-    Present: "",
-    Paid_Holiday: "",
-    Absent_Days: "",
-    Days_Paid: "",
+    Payhead_ID: "",
+    Amount: "",
+    Remark: "",
   });
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // console.log("handleSubmit: -", form);
-      const res = await Axios.post("/add-month-attendance", form);
+      console.log("handleSubmit: -", form);
+      const res = await Axios.post("/add-variable-master", form);
       const result = res.data;
       // console.log("result:- ", result);
 
       if (result.statusText === "OK") {
         Swal.fire({
           icon: "success",
-          text: "Attendance Added Successfully",
-          title: "Monthly Attendance",
+          text: "Variable Added Successfully",
+          title: "Variable Master",
         });
 
         setTimeout(() => {
-          navigate("/attendance/attendancedetails");
+          navigate("/payroll/VariableMasterDetails");
         }, 1000);
       } else if (result.statusText === "!OK") {
         Swal.fire({
           icon: "error",
-          text: result.message || "Attendance not added",
-          title: "Monthly Attendance",
+          text: result.message || "Variable not added",
+          title: "Variable Master",
         });
       }
     } catch (err) {
@@ -88,24 +93,13 @@ const AddAttendance = () => {
     queryFn: async () => {
       const Months = await fetchMonths();
       const Employees = await fetchEmployee();
+      const Payhead = await fetchPayhead();
 
-      return { Months: Months, Employees: Employees };
+      return { Months: Months, Employees: Employees, Payhead: Payhead };
     },
   });
 
-  // console.log("data:- ", data);
-
-  useEffect(() => {
-    const Cal_Days_Paid = form.Tot_Days - form.Absent_Days;
-    const Calc_Present =
-      form.Tot_Days - form.Weekly_Off - form.Paid_Holiday - form.Absent_Days;
-    setForm((prevForm) => ({
-      ...prevForm,
-      Days_Paid: JSON.stringify(Cal_Days_Paid),
-      Present: JSON.stringify(Calc_Present),
-    }));
-    // console.log("Cal_Days_Paid:- ", Cal_Days_Paid);
-  }, [form.Tot_Days, form.Weekly_Off, form.Paid_Holiday, form.Absent_Days]);
+  //   console.log("data:- ", data ? data.Payhead : "");
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
@@ -114,7 +108,7 @@ const AddAttendance = () => {
         <Box sx={{ display: "flex", p: 2 }}>
           <HomeIcon onClick={() => navigate("/")} />
           <Typography sx={{ ml: 1, fontSize: "18px" }}>
-            Add Attendance{" "}
+            Add Variable{" "}
           </Typography>
         </Box>
         <Box
@@ -136,7 +130,7 @@ const AddAttendance = () => {
           }}
         >
           {/* First Column */}
-          {/* Select Employee, Tot Days, Absent, Days Paid*/}
+          {/* Select Employee, Pay Component*/}
           <Box sx={{ display: "flex", gap: 10, alignItems: "center" }}>
             <Box
               sx={{
@@ -146,9 +140,7 @@ const AddAttendance = () => {
               }}
             >
               <Typography>Select Employee </Typography>
-              <Typography>Total Days</Typography>
-              <Typography>Absent</Typography>
-              <Typography>Days Paid</Typography>
+              <Typography>Pay Component</Typography>
             </Box>
 
             <Box
@@ -165,7 +157,6 @@ const AddAttendance = () => {
                   padding: "10.5px",
                   paddingRight: "25px",
                   paddingLeft: "25px",
-                  // paddingTop: "10px",
                 }}
                 onChange={handleChange}
                 name="Employee_ID"
@@ -188,99 +179,39 @@ const AddAttendance = () => {
                   : ""}
               </select>
 
-              {/*Tot_Days  */}
-              <TextField
+              {/*Pay Component  */}
+              <select
                 required
-                onChange={handleChange}
-                name="Tot_Days"
-                value={form.Tot_Days}
-                placeholder="Total Days"
-                id="outlined-basic"
-                label=""
-                variant="outlined"
-                size="small"
-                type="number  "
-                sx={{
-                  backgroundColor: "#E6E6FA",
-
-                  ml: 0,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "black", // default border color
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "black", // on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "black", // on focus
-                    },
-                  },
+                style={{
+                  padding: "10.5px",
+                  paddingRight: "25px",
+                  paddingLeft: "25px",
+                  // paddingTop: "10px",
                 }}
-              />
-
-              {/* Absent Days*/}
-              <TextField
-                required
                 onChange={handleChange}
-                name="Absent_Days"
-                value={form.Absent_Days}
-                placeholder="Absent Days"
-                id="outlined-basic"
-                label=""
-                variant="outlined"
-                size="small"
-                type="number"
-                sx={{
-                  backgroundColor: "#E6E6FA",
+                name="Payhead_ID"
+                value={form.Payhead_ID}
+              >
+                <option selected value="" disabled>
+                  Select{" "}
+                </option>
 
-                  ml: 0,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "black", // default border color
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "black", // on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "black", // on focus
-                    },
-                  },
-                }}
-              />
-
-              {/* Days_Paid */}
-              <TextField
-                required
-                onChange={handleChange}
-                name="Days_Paid"
-                value={form.Days_Paid}
-                placeholder="Days Paid"
-                id="outlined-basic"
-                label=""
-                variant="outlined"
-                size="small"
-                type="number"
-                sx={{
-                  backgroundColor: "#E6E6FA",
-
-                  ml: 0,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "black", // default border color
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "black", // on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "black", // on focus
-                    },
-                  },
-                }}
-              />
+                {data
+                  ? data.Payhead.map((val, index) => (
+                      <option
+                        style={{ fontSize: "14px" }}
+                        key={val.Payhead_ID}
+                        value={val.Payhead_ID}
+                      >
+                        {val.Payhead_Name} ({val.Payhead_ID})
+                      </option>
+                    ))
+                  : ""}
+              </select>
             </Box>
           </Box>
           {/* Second Column */}
-          {/* Month, WO, PH, Present*/}
+          {/* Month, Amount*/}
           <Box sx={{ display: "flex", gap: 10, alignItems: "center" }}>
             <Box
               sx={{
@@ -291,9 +222,7 @@ const AddAttendance = () => {
               }}
             >
               <Typography>Select Month </Typography>
-              <Typography>Present</Typography>
-              <Typography>Weekly Off</Typography>
-              <Typography>Paid Holiday</Typography>
+              <Typography>Amount</Typography>
             </Box>
 
             <Box
@@ -322,8 +251,13 @@ const AddAttendance = () => {
                   ? data.Months.map((val, index) => (
                       <option
                         style={{ fontSize: "14px" }}
-                        key={val.Month}
-                        value={val.Month}
+                        key={val.MonthYear}
+                        value={[
+                          JSON.stringify({
+                            Month: val.Month,
+                            Year: val.Year,
+                          }),
+                        ]}
                       >
                         {val.MonthYear}
                       </option>
@@ -331,80 +265,20 @@ const AddAttendance = () => {
                   : ""}
               </select>
 
-              {/* Present */}
+              {/* Amount */}
               <TextField
                 required
                 onChange={handleChange}
-                name="Present"
-                value={form.Present}
-                placeholder="Present"
+                name="Amount"
+                value={form.Amount}
+                placeholder="0"
                 id="outlined-basic"
                 label=""
                 variant="outlined"
                 size="small"
                 type="number"
                 sx={{
-                  backgroundColor: "#E6E6FA",
-
-                  ml: 0,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "black", // default border color
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "black", // on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "black", // on focus
-                    },
-                  },
-                }}
-              />
-
-              {/* Weekly Off */}
-              <TextField
-                required
-                onChange={handleChange}
-                name="Weekly_Off"
-                value={form.Weekly_Off}
-                placeholder="Weekly Off"
-                id="outlined-basic"
-                label=""
-                variant="outlined"
-                size="small"
-                type="number"
-                sx={{
-                  backgroundColor: "#E6E6FA",
-
-                  ml: 0,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "black", // default border color
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "black", // on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "black", // on focus
-                    },
-                  },
-                }}
-              />
-
-              {/* Paid Holiday */}
-              <TextField
-                required
-                onChange={handleChange}
-                name="Paid_Holiday"
-                value={form.Paid_Holiday}
-                placeholder="Paid Holiday"
-                id="outlined-basic"
-                label=""
-                variant="outlined"
-                size="small"
-                type="number"
-                sx={{
-                  backgroundColor: "#E6E6FA",
+                  //   backgroundColor: "#E6E6FA",
 
                   ml: 0,
                   "& .MuiOutlinedInput-root": {
@@ -422,6 +296,28 @@ const AddAttendance = () => {
               />
             </Box>
           </Box>
+        </Box>
+        <Box
+          sx={{
+            mt: 5,
+            display: "flex",
+            gap: 10,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography>Remark </Typography>
+          <textarea
+            style={{
+              width: "50%",
+              height: "100px",
+              backgroundColor: "#E6E6FA",
+            }}
+            type="text"
+            onChange={handleChange}
+            name="Remark"
+            value={form.Remark}
+          ></textarea>
         </Box>
         <Divider sx={{ mt: 5 }} />
         {/* Save Button */}
@@ -448,4 +344,4 @@ const AddAttendance = () => {
   );
 };
 
-export default AddAttendance;
+export default AddVariableMaster;

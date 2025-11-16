@@ -48,7 +48,7 @@ const UpdatePayheads = () => {
     try {
       const result = await fetchSinglePayheadDetails(Payhead_ID);
       const data = result[0];
-      console.log("data", data);
+      // console.log("data", data);
       // Pre-fill form state
       setForm({
         Payhead_Code: data.Payhead_Code || "",
@@ -65,7 +65,7 @@ const UpdatePayheads = () => {
         Created_By: data.Created_By || "",
         Created_Time: data.Created_Time || "",
       });
-      console.log("IS_Formula_Type:- ", IS_Formula_Type);
+      // console.log("IS_Formula_Type:- ", IS_Formula_Type);
       // console.log(data.IS_PF);
     } catch (err) {
       console.error("Error in fetching payhead details:", err);
@@ -83,10 +83,11 @@ const UpdatePayheads = () => {
       ...form,
       [e.target.name]: e.target.value,
     });
-    console.log("Update HandleChange :- ", {
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    // console.log("Update HandleChange :- ",
+    //   {
+    //   ...form,
+    //   [e.target.name]: e.target.value,
+    // });
   };
 
   const handleSubmit = async (e) => {
@@ -448,7 +449,7 @@ const UpdatePayheads = () => {
         >
           <Typography sx={{ ml: 0 }}>Formula </Typography>
 
-          <textarea
+          {/* <textarea
             style={{
               width: "68%",
               height: "100px",
@@ -458,7 +459,34 @@ const UpdatePayheads = () => {
             onChange={handleChange}
             name="Payhead_Formula"
             value={form.Payhead_Formula}
-          ></textarea>
+          ></textarea> */}
+
+          {form.IS_Formula_Type == 1 ? (
+            <textarea
+              disabled
+              style={{
+                width: "68%",
+                height: "100px",
+                backgroundColor: "#E6E6FA",
+              }}
+              type="text"
+              onChange={handleChange}
+              name="Payhead_Formula"
+              value={form.Payhead_Formula}
+            ></textarea>
+          ) : (
+            <textarea
+              style={{
+                width: "68%",
+                height: "100px",
+                backgroundColor: "#E6E6FA",
+              }}
+              type="text"
+              onChange={handleChange}
+              name="Payhead_Formula"
+              value={form.Payhead_Formula}
+            ></textarea>
+          )}
         </Box>
         <Divider sx={{ mt: 5 }} />
         {/* Save Button */}

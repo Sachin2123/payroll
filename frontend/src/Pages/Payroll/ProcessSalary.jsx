@@ -1,11 +1,14 @@
 import Paper from "@mui/material/Paper";
-import { Box, Typography, Divider } from "@mui/material";
+import { Box, Typography, Divider, MenuItem } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import Axios from "../../api/Axios";
+import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
 import { useAPIContext } from "../../Context/APIContext";
 
 const fetchEmployee = async () => {
@@ -32,12 +35,13 @@ const fetchMonths = async () => {
 const ProcessSalary = ({ children }) => {
   const [employee, SelectedEmployee] = useState();
   const [month, SelectedMonth] = useState();
+  const [personName, setPersonName] = useState([]);
 
   const { components } = useAPIContext();
   const { ButtonComponent, DividerComponent } = components;
 
   const [form, setForm] = useState({
-    Employee_ID: "",
+    Employee_ID: [],
     Month: "",
   });
   const navigate = useNavigate();
@@ -74,29 +78,34 @@ const ProcessSalary = ({ children }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    // console.log("name:- ", name, "value:- ", value);
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    const { name, value, multiple, selectedOptions } = e.target;
 
-    if (name === "Employee_ID") {
-      SelectedEmployee(value);
+    // ✅ If it's a multiple select (like Employee_ID)
+    if (multiple) {
+      const selectedValues = Array.from(selectedOptions, (option) =>
+        isNaN(option.value) ? option.value : Number(option.value)
+      );
+
+      setForm((prev) => ({
+        ...prev,
+        [name]: selectedValues,
+      }));
+
+      if (name === "Employee_ID") {
+        SelectedEmployee(selectedValues); // Optional callback
+      }
     }
-    if (name === "Month") {
-      const selected = JSON.parse(value);
+    // ✅ For normal single select or input field
+    else {
+      setForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
 
-      // setForm((prev) => ({
-      //   ...prev,
-      //   Month: JSON.stringify(selected.Month),
-      //   Year: JSON.stringify(selected.Year),
-      // }));
-
-      SelectedMonth(value);
+      if (name === "Month") {
+        SelectedMonth(value); // Optional callback
+      }
     }
-
-    // console.log("handleChange:- ", form);
   };
 
   const { isLoading, error, data } = useQuery({
@@ -129,6 +138,32 @@ const ProcessSalary = ({ children }) => {
             color: "grey",
           }}
         ></Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            // mb: 2,
+            p: 2,
+            backgroundColor: "#111827",
+          }}
+        >
+          <Typography
+            sx={{
+              color: "#555",
+              fontWeight: 500,
+              fontSize: "1rem",
+              backgroundColor: "#FFF8E1",
+              borderLeft: "4px solid red",
+              borderRight: "4px solid red",
+              padding: "8px 12px",
+              borderRadius: "8px",
+              display: "inline-block",
+            }}
+          >
+            <strong>Note:</strong> Only employees with a defined salary
+            structure will be displayed.
+          </Typography>
+        </Box>
         <DividerComponent />
         <Box
           sx={{
@@ -160,7 +195,7 @@ const ProcessSalary = ({ children }) => {
               }}
             >
               {/* Select Employee */}
-              <select
+              {/* <select
                 required
                 style={{
                   padding: "10.5px",
@@ -183,11 +218,45 @@ const ProcessSalary = ({ children }) => {
                         key={val.Employee_ID}
                         value={val.Employee_ID}
                       >
-                        {val.Employee_Name} - {val.Employee_ID}
+                        {val.Employee_Name} - ({val.Employee_Code})
                       </option>
                     ))
                   : ""}
-              </select>
+              </select> */}
+              <Select
+                sx={{
+                  minWidth: "150%",
+                  height: "40px",
+                  fontSize: "15px",
+                  padding: "10px 15px",
+                  borderRadius: "2px",
+                  // backgroundColor: "#f8f9fa",
+                }}
+                multiple
+                name="Employee_ID"
+                value={form.Employee_ID}
+                onChange={handleChange}
+                // renderValue={(selected) =>
+                //   selected
+                //     .map(
+                //       (id) =>
+                //         data?.Employees?.find((emp) => emp.Employee_ID === id)
+                //           ?.Employee_Name
+                //     )
+                //     .join(", ")
+                // }
+              >
+                {data?.Employees?.map((emp) => (
+                  <MenuItem key={emp.Employee_ID} value={emp.Employee_ID}>
+                    <Checkbox
+                      checked={form.Employee_ID.includes(emp.Employee_ID)}
+                    />
+                    <ListItemText
+                      primary={`${emp.Employee_Name} (${emp.Employee_Code})`}
+                    />
+                  </MenuItem>
+                ))}
+              </Select>
             </Box>
           </Box>
           {/* Second Column */}

@@ -66,7 +66,17 @@ const UpdatePayheads = lazy(() =>
   import("./Pages/Payroll/Payheads/UpdatePayheads")
 );
 
+const AddVariableMaster = lazy(() =>
+  import("./Pages/Payroll/VariableMaster/AddVariableMaster")
+);
+
+const VariableMasterDetails = lazy(() =>
+  import("./Pages/Payroll/VariableMaster/VariableMasterDetails")
+);
+
 const ProcessSalary = lazy(() => import("./Pages/Payroll/ProcessSalary"));
+
+const Reports = lazy(() => import("./Pages/Reports/Reports"));
 
 const queryClient = new QueryClient();
 
@@ -159,6 +169,18 @@ function App() {
                       path="/payroll/UpdatePayheads/:Payhead_ID"
                       element={<UpdatePayheads />}
                     ></Route>
+
+                    <Route
+                      path="/payroll/AddVariableMaster"
+                      element={<AddVariableMaster />}
+                    ></Route>
+
+                    <Route
+                      path="/payroll/VariableMasterDetails"
+                      element={<VariableMasterDetails />}
+                    ></Route>
+
+                    <Route path="/reports" element={<Reports />}></Route>
                   </Routes>
                 </Box>
               </Box>

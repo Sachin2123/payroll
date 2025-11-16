@@ -53,7 +53,7 @@ const Sidebar = () => {
     },
     {
       name: "Reports",
-      path: "/repots",
+      path: "/reports",
       submenu: "",
       icons: <DescriptionIcon />,
     },
