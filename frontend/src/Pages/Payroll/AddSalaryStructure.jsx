@@ -234,7 +234,8 @@ const AddSalaryStructure = () => {
             {data
               ? data.Payheads.map((val, index) => (
                   <Typography>
-                    {val.Payhead_Type === "Deduction" ? (
+                    {val.Payhead_Type === "Deduction" ||
+                    val.FormulaType_Name === "Variable" ? (
                       <TextField
                         disabled
                         required

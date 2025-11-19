@@ -51,7 +51,7 @@ const columns = [
   {
     field: "Created_Time",
     headerName: "Created Time",
-    width: 200,
+    width: 150,
   },
 ];
 

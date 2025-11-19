@@ -27,19 +27,20 @@ const AddPayheads = () => {
     IS_PT: "",
     IS_Attendance: "",
     IS_Formula_Type: "",
+    Description: "",
     Created_By: "",
     Created_Time: "",
   });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-   
     // console.log("formulaType:- ", formulaType.IS_Formula_Type);
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
-    // console.log("form data :-", JSON.stringify(form));
+
+    console.log("form data :-", JSON.stringify(form));
   };
 
   const handleSubmit = async (e) => {
@@ -56,7 +57,7 @@ const AddPayheads = () => {
       });
 
       const result = await res.json(); // Read server response
-        console.log("result.message:- ", result.message);
+      console.log("result.message:- ", result.message);
 
       if (res.ok) {
         // alert(result.message); // Success message
@@ -131,6 +132,7 @@ const AddPayheads = () => {
               <Typography>PF</Typography>
               <Typography>ESIC</Typography>
               <Typography>Payhead Type</Typography>
+              <Typography>Description </Typography>
             </Box>
 
             <Box
@@ -254,6 +256,35 @@ const AddPayheads = () => {
                 <option value="Allowance">Allowance</option>
                 <option value="Deduction">Deduction</option>
               </select>
+
+              <TextField
+                required
+                onChange={handleChange}
+                name="Description"
+                value={form.Description}
+                placeholder="Description"
+                id="outlined-basic"
+                label=""
+                variant="outlined"
+                size="small"
+                type="text"
+                sx={{
+                  // backgroundColor: "#E6E6FA",
+
+                  ml: 0,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "black", // default border color
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "black", // on hover
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black", // on focus
+                    },
+                  },
+                }}
+              />
             </Box>
           </Box>
           {/* Second Column */}
@@ -385,8 +416,9 @@ const AddPayheads = () => {
               >
                 <option disabled>Select</option>
 
-                <option value="1">Flag</option>
                 <option value="0">Formula</option>
+                <option value="1">Flag</option>
+                <option value="2">Variable</option>
               </select>
             </Box>
           </Box>
@@ -394,31 +426,52 @@ const AddPayheads = () => {
         {/* Formula */}
         <Box
           sx={{
-            mt: 6,
+            mt: 5,
             display: "flex",
             justifyContent: "center",
-            gap: 10,
+            gap: 18,
             alignItems: "center",
           }}
         >
-          {/* {formulaType.IS_Formula_Type == 1 ? (
-            ""
-          ) : ( */}
-          <>
-            <Typography sx={{ ml: 0 }}>Formula </Typography>
-            <textarea
-              style={{
-                width: "68%",
-                height: "100px",
-                backgroundColor: "#E6E6FA",
-              }}
-              type="text"
-              onChange={handleChange}
+          <Typography>Formula </Typography>
+
+          {form.IS_Formula_Type == 1 || form.IS_Formula_Type == 2 ? (
+            <TextField
+              // label="Payhead Formula"
               name="Payhead_Formula"
               value={form.Payhead_Formula}
-            ></textarea>
-          </>
-          {/* )} */}
+              onChange={handleChange}
+              disabled
+              fullWidth
+              multiline
+              minRows={3}
+              sx={{
+                ml: "5px",
+                width: "68%",
+                backgroundColor: "#F2F2F7",
+                borderRadius: "8px",
+                "& .MuiInputBase-root.Mui-disabled": {
+                  color: "#555", // Text color when disabled
+                },
+              }}
+            />
+          ) : (
+            <TextField
+              // label="Payhead Formula"
+              name="Payhead_Formula"
+              value={form.Payhead_Formula}
+              onChange={handleChange}
+              fullWidth
+              multiline
+              minRows={3}
+              sx={{
+                marginRight: "30px",
+                width: "68%",
+                backgroundColor: "#FFFFFF",
+                borderRadius: "8px",
+              }}
+            />
+          )}
         </Box>
         <Divider sx={{ mt: 5 }} />
         {/* Save Button */}

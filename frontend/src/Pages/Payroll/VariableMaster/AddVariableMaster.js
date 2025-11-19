@@ -51,7 +51,7 @@ const AddVariableMaster = () => {
     e.preventDefault();
 
     try {
-      console.log("handleSubmit: -", form);
+      // console.log("handleSubmit: -", form);
       const res = await Axios.post("/add-variable-master", form);
       const result = res.data;
       // console.log("result:- ", result);
@@ -197,13 +197,15 @@ const AddVariableMaster = () => {
                 </option>
 
                 {data
-                  ? data.Payhead.map((val, index) => (
+                  ? data.Payhead.filter(
+                      (val) => val.FormulaType_Name === "Variable"
+                    ).map((val, index) => (
                       <option
                         style={{ fontSize: "14px" }}
                         key={val.Payhead_ID}
                         value={val.Payhead_ID}
                       >
-                        {val.Payhead_Name} ({val.Payhead_ID})
+                        {val.Payhead_Name}
                       </option>
                     ))
                   : ""}

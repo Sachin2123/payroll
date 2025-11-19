@@ -64,20 +64,18 @@ const PayheadsDetails = () => {
     {
       field: "Payhead_Type",
       headerName: "Payhead Type",
-      width: 200,
+      width: 120,
     },
 
-    //   {
-    //     field: "Effective_From",
-    //     headerName: "Effective From",
-    //     width: 110,
-    //     renderCell: (params) =>
-    //       params.value ? format(new Date(params.value), dateFormat) : "-",
-    //   },
     {
       field: "Payhead_Formula",
       headerName: "Payhead Formula",
       width: 500,
+    },
+    {
+      field: "FormulaType_Name",
+      headerName: "Formula Type",
+      width: 120,
     },
   ];
   const navigate = useNavigate();

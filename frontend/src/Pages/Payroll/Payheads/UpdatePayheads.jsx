@@ -431,8 +431,9 @@ const UpdatePayheads = () => {
               >
                 <option disabled>Select</option>
 
-                <option value="1">Flag</option>
                 <option value="0">Formula</option>
+                <option value="1">Flag</option>
+                <option value="2">Variable</option>
               </select>
             </Box>
           </Box>
@@ -461,7 +462,7 @@ const UpdatePayheads = () => {
             value={form.Payhead_Formula}
           ></textarea> */}
 
-          {form.IS_Formula_Type == 1 ? (
+          {form.IS_Formula_Type == 1 || form.IS_Formula_Type == 2 ? (
             <textarea
               disabled
               style={{

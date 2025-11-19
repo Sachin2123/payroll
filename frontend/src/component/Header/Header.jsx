@@ -14,11 +14,12 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import SettingsIcon from "@mui/icons-material/Settings";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Typography } from "@mui/material";
 import Timer from "../Timer/Timer";
 import Date from "../DateTime/DateTime";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -138,7 +139,7 @@ export default function PrimarySearchAppBar() {
           color="inherit"
         >
           <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
+            <SettingsIcon />
           </Badge>
         </IconButton>
         <p>Notifications</p>
@@ -157,6 +158,8 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
+
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -208,7 +211,7 @@ export default function PrimarySearchAppBar() {
                 <DarkModeIcon />
               </Badge>
             </IconButton>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
@@ -216,14 +219,14 @@ export default function PrimarySearchAppBar() {
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+              <Badge badgeContent={0} color="error">
+                <SettingsIcon onClick={() => navigate("/settings")} />
               </Badge>
             </IconButton>
             <IconButton

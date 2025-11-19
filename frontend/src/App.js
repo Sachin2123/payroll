@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -8,6 +8,13 @@ import { APIProvider } from "./Context/APIContext";
 
 const Sidebar = lazy(() => import("./component/Sidebar/Sidebar"));
 const Header = lazy(() => import("./component/Header/Header"));
+const Settings = lazy(() => import("./Pages/Settings/Settings"));
+const PayrollSettings = lazy(() =>
+  import("./Pages/Settings/Payroll/PayrollSettingsDashboard")
+);
+const SalaryRegisterSequence = lazy(() =>
+  import("./Pages/Settings/Payroll/SalaryRegisterSequence")
+);
 const Dashboard = lazy(() => import("./Pages/Dashboard/Dashboard"));
 
 const AddEmployee = lazy(() => import("./Pages/Employee/AddEmployee"));
@@ -50,7 +57,6 @@ const DesignationDetails = lazy(() =>
 const AddGrade = lazy(() => import("./Pages/Masters/Grade/AddGrade"));
 const GradeDetails = lazy(() => import("./Pages/Masters/Grade/GradeDetails"));
 
-const Payroll = lazy(() => import("./Pages/Payroll/Payroll"));
 const AddSalaryStructure = lazy(() =>
   import("./Pages/Payroll/AddSalaryStructure")
 );
@@ -93,98 +99,117 @@ function App() {
       >
         <QueryClientProvider client={queryClient}>
           <Router>
-            <Box sx={{ display: "flex", height: "100vh" }}>
-              {/* Fixed width sidebar on the left */}
-              <Sidebar />
-              <Box
-                sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
-              >
-                <Header /> {/* Fixed header on top */}
-                <Box sx={{ flexGrow: 1, p: 2, overflowY: "auto" }}>
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route
-                      path="/companydetails"
-                      element={<CompanyDetails />}
-                    />
-                    <Route path="/addcompany" element={<AddCompany />} />
-                    <Route path="/gradedetails" element={<GradeDetails />} />
-                    <Route path="/addgrade" element={<AddGrade />} />
-                    <Route path="/branchdetails" element={<BranchDetails />} />
-                    <Route path="/addbranch" element={<AddBranch />} />
-                    <Route path="/adddepartment" element={<AddDepartment />} />
-                    <Route
-                      path="/departmentdetails"
-                      element={<DepartmentDetails />}
-                    />
-                    <Route
-                      path="/adddesignation"
-                      element={<AddDesignation />}
-                    />
-                    <Route
-                      path="/designationdetails"
-                      element={<DesignationDetails />}
-                    />
-                    <Route path="/addemployee" element={<AddEmployee />} />
-                    <Route
-                      path="/employeedetails"
-                      element={<EmployeeDetails />}
-                    />
-                    <Route path="/addWithdrawal" element={<AddWithdrawal />} />
-                    <Route
-                      path="/WithdrawalDetails"
-                      element={<WithdrawalDetails />}
-                    />
-                    <Route path="/leave" element={<Leave />} />
-                    <Route
-                      path="/attendance/attendancedetails"
-                      element={<AttendanceDetails />}
-                    />
-                    <Route
-                      path="/attendance/AddAttendance"
-                      element={<AddAttendance />}
-                    />
-                    <Route path="/payroll" element={<Payroll />} />
-                    <Route
-                      path="/payroll/add-salary-structure"
-                      element={<AddSalaryStructure />}
-                    />
-                    <Route
-                      path="/payroll/salary-structure-details"
-                      element={<SalaryStructureDetails />}
-                    />
-                    <Route
-                      path="/payroll/process-salary"
-                      element={<ProcessSalary />}
-                    />
-                    <Route
-                      path="/payroll/addpayhead"
-                      element={<AddPayheads />}
-                    ></Route>
-                    <Route
-                      path="/payroll/payheaddetails"
-                      element={<PayheadsDetails />}
-                    ></Route>
-                    <Route
-                      path="/payroll/UpdatePayheads/:Payhead_ID"
-                      element={<UpdatePayheads />}
-                    ></Route>
+            <Suspense fallback={<div> Page is Loading...</div>}>
+              <Box sx={{ display: "flex", height: "100vh" }}>
+                {/* Fixed width sidebar on the left */}
+                <Sidebar />
+                <Box
+                  sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+                >
+                  <Header /> {/* Fixed header on top */}
+                  <Box sx={{ flexGrow: 1, p: 2, overflowY: "auto" }}>
+                    <Routes>
+                      <Route path="/settings" element={<Settings />} />
+                      <Route
+                        path="/settings/Payroll/Dashboard"
+                        element={<PayrollSettings />}
+                      />
+                      <Route
+                        path="/settings/Payroll/SalaryRegisterSequence"
+                        element={<SalaryRegisterSequence />}
+                      />
+                      <Route path="/" element={<Dashboard />} />
+                      <Route
+                        path="/companydetails"
+                        element={<CompanyDetails />}
+                      />
+                      <Route path="/addcompany" element={<AddCompany />} />
+                      <Route path="/gradedetails" element={<GradeDetails />} />
+                      <Route path="/addgrade" element={<AddGrade />} />
+                      <Route
+                        path="/branchdetails"
+                        element={<BranchDetails />}
+                      />
+                      <Route path="/addbranch" element={<AddBranch />} />
+                      <Route
+                        path="/adddepartment"
+                        element={<AddDepartment />}
+                      />
+                      <Route
+                        path="/departmentdetails"
+                        element={<DepartmentDetails />}
+                      />
+                      <Route
+                        path="/adddesignation"
+                        element={<AddDesignation />}
+                      />
+                      <Route
+                        path="/designationdetails"
+                        element={<DesignationDetails />}
+                      />
+                      <Route path="/addemployee" element={<AddEmployee />} />
+                      <Route
+                        path="/employeedetails"
+                        element={<EmployeeDetails />}
+                      />
+                      <Route
+                        path="/addWithdrawal"
+                        element={<AddWithdrawal />}
+                      />
+                      <Route
+                        path="/WithdrawalDetails"
+                        element={<WithdrawalDetails />}
+                      />
+                      <Route path="/leave" element={<Leave />} />
+                      <Route
+                        path="/attendance/attendancedetails"
+                        element={<AttendanceDetails />}
+                      />
+                      <Route
+                        path="/attendance/AddAttendance"
+                        element={<AddAttendance />}
+                      />
+                      <Route
+                        path="/payroll/add-salary-structure"
+                        element={<AddSalaryStructure />}
+                      />
+                      <Route
+                        path="/payroll/salary-structure-details"
+                        element={<SalaryStructureDetails />}
+                      />
+                      <Route
+                        path="/payroll/process-salary"
+                        element={<ProcessSalary />}
+                      />
+                      <Route
+                        path="/payroll/addpayhead"
+                        element={<AddPayheads />}
+                      ></Route>
+                      <Route
+                        path="/payroll/payheaddetails"
+                        element={<PayheadsDetails />}
+                      ></Route>
+                      <Route
+                        path="/payroll/UpdatePayheads/:Payhead_ID"
+                        element={<UpdatePayheads />}
+                      ></Route>
 
-                    <Route
-                      path="/payroll/AddVariableMaster"
-                      element={<AddVariableMaster />}
-                    ></Route>
+                      <Route
+                        path="/payroll/AddVariableMaster"
+                        element={<AddVariableMaster />}
+                      ></Route>
 
-                    <Route
-                      path="/payroll/VariableMasterDetails"
-                      element={<VariableMasterDetails />}
-                    ></Route>
+                      <Route
+                        path="/payroll/VariableMasterDetails"
+                        element={<VariableMasterDetails />}
+                      ></Route>
 
-                    <Route path="/reports" element={<Reports />}></Route>
-                  </Routes>
+                      <Route path="/reports" element={<Reports />}></Route>
+                    </Routes>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
+            </Suspense>
           </Router>
         </QueryClientProvider>
       </ErrorBoundary>

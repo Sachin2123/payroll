@@ -4,9 +4,7 @@ import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import CreateIcon from "@mui/icons-material/Create";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-
 import LocationCityIcon from "@mui/icons-material/LocationCity";
-
 import { CircleUser, CalendarDays, Banknote, Clock, Award } from "lucide-react";
 import { useLocation } from "react-router-dom";
 const Sidebar = () => {
@@ -14,7 +12,7 @@ const Sidebar = () => {
   // const [click, setClick] = useState(false);
 
   const Location = useLocation();
-  // console.log("Location:- ", Location);
+  // console.log("Location:- ", Location.pathname);
   const menus = [
     {
       name: "Company",
@@ -83,6 +81,14 @@ const Sidebar = () => {
     },
   ];
 
+  const payrollSettingMenus = [
+    {
+      id: 1,
+      name: "Salary Register Sequence",
+      path: "/settings/Payroll/SalaryRegisterSequence",
+    },
+  ];
+
   // console.log(menus[0].submenu);
 
   const handleClick = (path) => {
@@ -124,31 +130,70 @@ const Sidebar = () => {
             gap: 1,
           }}
         >
-          {menus.map((menu, id) => {
-            return (
-              <Button
-                onClick={() => handleClick(menu.path)}
-                key={id}
-                sx={{
-                  padding: 1,
-                  width: "100%",
-                  // color: "White",
-                  color: Location.pathname === menu.path ? "Black" : "Grey",
-                  backgroundColor:
-                    Location.pathname === menu.path ? "#FAF9F6	" : "transparent",
-                  textTransform: "none",
-                  justifyContent: "flex-start",
-                  "&:hover": {
-                    color: Location.pathname === menu.path ? "black" : "white",
-                  },
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  {menu.icons} {menu.name}
-                </Box>
-              </Button>
-            );
-          })}
+          {Location.pathname === "/settings/Payroll/Dashboard" ||
+          Location.pathname === "/settings/Payroll/SalaryRegisterSequence" ? (
+            <>
+              {payrollSettingMenus.map((menu, id) => {
+                return (
+                  <Button
+                    onClick={() => handleClick(menu.path)}
+                    key={id}
+                    sx={{
+                      padding: 1,
+                      width: "100%",
+                      // color: "White",
+                      color: Location.pathname === menu.path ? "Black" : "Grey",
+                      backgroundColor:
+                        Location.pathname === menu.path
+                          ? "#FAF9F6	"
+                          : "transparent",
+                      textTransform: "none",
+                      justifyContent: "flex-start",
+                      "&:hover": {
+                        color:
+                          Location.pathname === menu.path ? "black" : "white",
+                      },
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      {menu.icons} {menu.name}
+                    </Box>
+                  </Button>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {menus.map((menu, id) => {
+                return (
+                  <Button
+                    onClick={() => handleClick(menu.path)}
+                    key={id}
+                    sx={{
+                      padding: 1,
+                      width: "100%",
+                      // color: "White",
+                      color: Location.pathname === menu.path ? "Black" : "Grey",
+                      backgroundColor:
+                        Location.pathname === menu.path
+                          ? "#FAF9F6	"
+                          : "transparent",
+                      textTransform: "none",
+                      justifyContent: "flex-start",
+                      "&:hover": {
+                        color:
+                          Location.pathname === menu.path ? "black" : "white",
+                      },
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      {menu.icons} {menu.name}
+                    </Box>
+                  </Button>
+                );
+              })}
+            </>
+          )}
         </Box>
       </Box>
     </div>
