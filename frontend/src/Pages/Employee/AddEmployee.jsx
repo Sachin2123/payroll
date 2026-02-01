@@ -22,15 +22,6 @@ const AddEmployee = () => {
   });
   const navigate = useNavigate();
 
-  // const tabs = [
-  //   { name: "Basic Information" },
-  //   { name: "Statutory", path: "/statutory" },
-  //   { name: "Contact", path: "/contact" },
-  //   { name: "Document", path: "/document" },
-  //   { name: "Nominee", path: "/nominee" },
-  //   { name: "Asset", path: "/asset" },
-  // ];
-
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -120,36 +111,6 @@ const AddEmployee = () => {
             Add Employee{" "}
           </Typography>
         </Box>
-        {/* <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            p: 2,
-            gap: 3,
-          }}
-        >
-          {tabs.map((menu) => {
-            return (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 5,
-                  justifyContent: "space-between",
-                }}
-              >
-                <Button
-                  className="btn-addemployee"
-                  onClick={() => navigate("/addemployee")}
-                  sx={{
-                    color: "grey",
-                  }}
-                >
-                  {menu.name}
-                </Button>
-              </Box>
-            );
-          })}{" "}
-        </Box> */}
         {/* Basic Information */}
         <Box
           sx={{

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import Axios from "../../../api/Axios";
 
 const UpdatePayheads = () => {
   const { Payhead_ID } = useParams();
@@ -28,19 +29,18 @@ const UpdatePayheads = () => {
   });
 
   const fetchGradeCompany = async () => {
-    const result = await fetch("http://localhost:5000/api/grade-company");
-    // console.log(result);
-    if (!result.ok) throw new Error("Error in fetching");
-    return result.json();
+    const result = await Axios.get("/grade-company");
+    // console.log(result.data);
+    if (!result.data) throw new Error("Error in fetching");
+    return result.data;
   };
 
   // API: fetch single payhead details
   const fetchSinglePayheadDetails = async (Payhead_ID) => {
-    const result = await fetch(
-      `http://localhost:5000/api/payheaddetails/${Payhead_ID}`
-    );
-    if (!result.ok) throw new Error("Error in fetching payhead details");
-    return result.json();
+    const result = await Axios.get(`/payheaddetails/${Payhead_ID}`);
+    // console.log(result.data);
+    if (!result.data) throw new Error("Error in fetching payhead details");
+    return result.data;
   };
 
   // Fetch and set payhead data
@@ -83,46 +83,35 @@ const UpdatePayheads = () => {
       ...form,
       [e.target.name]: e.target.value,
     });
-    // console.log("Update HandleChange :- ",
-    //   {
-    //   ...form,
-    //   [e.target.name]: e.target.value,
-    // });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("handleSubmit JSOn :- ", JSON.stringify(form));
-    // console.log("handleSubmit Normal:- ", form);
+
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/edit-payheaddetails/${Payhead_ID}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form, Payhead_ID),
-        }
+      const res = await Axios.put(
+        `/edit-payheaddetails/${Payhead_ID}`,
+        form,
+        Payhead_ID
       );
 
-      const result = await res.json();
+      const result = res.data; // correct way
       // console.log(result);
 
-      if (res.ok) {
-        // alert(result.message);
-        Swal.fire({
-          title: `${form.Payhead_Name} Payhead Updated Successfully`,
-          icon: "success",
-        });
-        setTimeout(() => {
-          navigate("/payroll/payheaddetails");
-        }, 300);
-      } else {
-        alert("Error: " + result.error);
-      }
+      Swal.fire({
+        title: `${form.Payhead_Name} Payhead Updated Successfully`,
+        icon: "success",
+      });
+
+      setTimeout(() => {
+        navigate("/payroll/payheaddetails");
+      }, 300);
     } catch (err) {
-      alert("Something went wrong. Check console.");
+      Swal.fire({
+        title: "Error",
+        text: err.response?.data?.error || "Something went wrong",
+        icon: "error",
+      });
+
       console.error("Error during submit:", err);
     }
   };

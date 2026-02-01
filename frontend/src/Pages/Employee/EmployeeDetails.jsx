@@ -91,7 +91,7 @@ const EmployeeDetails = () => {
     queryFn: fetchEmployee,
   });
 
-  // console.log(data);
+  console.log(data);
 
   const exportEmployee = () => {
     const wb = XLSX.utils.book_new();

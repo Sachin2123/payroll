@@ -1,4 +1,5 @@
 import { Box, Button } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import CreateIcon from "@mui/icons-material/Create";
@@ -9,7 +10,7 @@ import { CircleUser, CalendarDays, Banknote, Clock, Award } from "lucide-react";
 import { useLocation } from "react-router-dom";
 const Sidebar = () => {
   const navigate = useNavigate();
-  // const [click, setClick] = useState(false);
+  // const [clicked, setClicked] = useState();
 
   const Location = useLocation();
   // console.log("Location:- ", Location.pathname);
@@ -91,9 +92,12 @@ const Sidebar = () => {
 
   // console.log(menus[0].submenu);
 
+  // const handleClick = (path) => {
+  //   window.location.href = path;
+  // };
+
   const handleClick = (path) => {
-    // console.log("handleSubmit :- ", path);
-    navigate(path);
+    window.location.assign(path);
   };
 
   return (

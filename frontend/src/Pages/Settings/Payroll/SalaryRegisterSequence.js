@@ -1,39 +1,11 @@
 import Paper from "@mui/material/Paper";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, TextField, Button, Typography, Divider } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { DataGrid } from "@mui/x-data-grid";
-import EditIcon from "@mui/icons-material/Edit";
-import Divider from "@mui/material/Divider";
 import Axios from "../../../api/Axios";
 import { useState } from "react";
-
-const paginationModel = { page: 0, pageSize: 5 };
-
-const columns = [
-  {
-    icons: <EditIcon />,
-    field: "Company_ID",
-    headerName: "Company ID",
-    width: 130,
-  },
-  {
-    field: "Company_Name",
-    headerName: "Company Name",
-    width: 500,
-  },
-  {
-    field: "Created_By",
-    headerName: "Created By",
-    width: 130,
-  },
-  {
-    field: "Created_Time",
-    headerName: "Created Time",
-    width: 200,
-  },
-];
+import { useAPIContext } from "../../../Context/APIContext";
 
 const fetchCompany = async () => {
   const result = await Axios.get("/companydetails");
@@ -47,10 +19,15 @@ const fetchPayheads = async () => {
   return result.data;
 };
 
-const SalaryRegisterSequence = () => {
+const SalaryRegisterSequence = ({ children }) => {
+  const { components } = useAPIContext();
+  const { ButtonComp, DividerComp, TypographyComp, TextFieldComp, BoxComp } =
+    components;
+
   const [company, setCompany] = useState();
   const [form, setForm] = useState({
     Company_ID: "",
+    OrderNo: "",
   });
   const navigate = useNavigate();
   const { error, isLoading, data } = useQuery({
@@ -71,7 +48,7 @@ const SalaryRegisterSequence = () => {
 
   if (isLoading) return <div>...Loading</div>;
   if (error) return <div>...Error</div>;
-  //   console.log(data);
+  // console.log(data);
 
   return (
     <Box sx={{}}>
@@ -96,7 +73,7 @@ const SalaryRegisterSequence = () => {
             name="Company_ID"
             value={form.Company_ID}
           >
-            <option selected disabled>
+            <option value="" disabled>
               Select Company
             </option>
             {data.Company?.map((val, index) => (
@@ -111,22 +88,102 @@ const SalaryRegisterSequence = () => {
           </select>
         </Box>
         <Divider sx={{ mt: 5 }} />
-        <Box sx={{ mt: 8, mb: 1, display: "flex", justifyContent: "center" }}>
-          {/* <Table /> */}
+        {company === "Selected" && (
+          <>
+            {/* Header Row */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                gap: 10,
+                py: 2,
+              }}
+            >
+              <Typography variant="h6">Payhead Name</Typography>
+              <Typography variant="h6">Payhead Type</Typography>
+              <Typography variant="h6">Order No</Typography>
+            </Box>
 
-          {/* <DataGrid
-            rows={
-              data ? data.map((row) => ({ ...row, id: row.Company_ID })) : []
-            }
-            columns={columns}
-            initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            sx={{ border: 0 }}
-          /> */}
+            <Divider sx={{ mb: 3 }} />
 
-          {company === "Selected" ? "Render" : ""}
-        </Box>
+            {/* Data Rows */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                pl: 15,
+                mb: 5,
+              }}
+            >
+              {/* Payhead Name Column */}
+              <Box
+                sx={{
+                  mt: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6.5,
+                }}
+              >
+                {data?.Payheads?.map((val, index) => (
+                  <Typography key={index}>{val.Payhead_Name}</Typography>
+                ))}
+              </Box>
+
+              {/* Payhead Type Column */}
+              <Box
+                sx={{
+                  mt: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6.5,
+                }}
+              >
+                {data?.Payheads?.map((val, index) => (
+                  <Typography key={index}>{val.Payhead_Type}</Typography>
+                ))}
+              </Box>
+
+              {/* Order No Column */}
+              <Box
+                sx={{
+                  mt: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
+                {data?.Payheads?.map((val, index) => (
+                  <TextField
+                    key={index}
+                    sx={{ width: "50%" }}
+                    name="OrderNo"
+                    value={form.OrderNo}
+                    placeholder="0"
+                  />
+                ))}
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                m: 3,
+                mr: 14.5,
+              }}
+            >
+              <Button
+                sx={{
+                  backgroundColor: "#111827",
+                  color: "white",
+                  px: 4.2,
+                  py: 1.3,
+                }}
+              >
+                Save
+              </Button>
+            </Box>
+          </>
+        )}
       </Paper>
     </Box>
   );

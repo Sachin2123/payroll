@@ -10,7 +10,7 @@ const Dashboard = ({ children }) => {
 
   const { components } = useAPIContext();
   const { EmployeeMasterDetailsAPI } = useAPIContext();
-  const { ButtonComponent } = components;
+  const { ButtonComp, BoxComp } = components;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,20 +32,12 @@ const Dashboard = ({ children }) => {
   };
 
   return (
-    <Box sx={{}}>
+    <BoxComp sx={{}}>
       <Paper elevation={3} sx={{ height: "85vh", overflowY: "auto" }}>
-        <Box>
-          {/* {data.map((val, index) => (
-            <ol key={val.Employee_ID}>
-              <li>
-                {val.Employee_ID} - {val.Employee_Name}
-              </li>
-            </ol>
-          ))} */}
-
-          <ButtonComponent onClick={handleShow} sx={{ m: 3 }}>
+        <BoxComp>
+          <ButtonComp onClick={handleShow} sx={{ m: 3 }}>
             {!hideData ? "Hide Data" : "Show Data"}
-          </ButtonComponent>
+          </ButtonComp>
 
           {!show
             ? data.map((val, index) => (
@@ -56,9 +48,9 @@ const Dashboard = ({ children }) => {
                 </ol>
               ))
             : ""}
-        </Box>
+        </BoxComp>
       </Paper>
-    </Box>
+    </BoxComp>
   );
 };
 

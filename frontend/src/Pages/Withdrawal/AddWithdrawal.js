@@ -31,21 +31,21 @@ const AddWithdrawal = () => {
 
       // This will find the selected employee id in EmpDetails
       const SelectedEmployee = data.EmpDetails.find(
-        (item) => item.Employee_ID === parseInt(empId)
+        (item) => item.Employee_ID === parseInt(empId),
       );
-      // console.log("SelectedEmployee:- ", SelectedEmployee.Joining_Date);
+      console.log("SelectedEmployee:- ", SelectedEmployee);
 
       // Date_Of_Joining in required date format "yyyy-MM-dd"
       const dojFormatted = format(
         new Date(SelectedEmployee.Joining_Date),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
       );
       SetDoj(dojFormatted);
 
       // Confirmation_Date in required date format
       const confirmDateFormatted = format(
         new Date(SelectedEmployee.Confirmation_Date),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
       );
       SetConfirmDate(confirmDateFormatted);
     }
@@ -62,7 +62,7 @@ const AddWithdrawal = () => {
 
         if (!isNaN(date1) && !isNaN(date2)) {
           const diffInDays = Math.round(
-            (date1 - date2) / (1000 * 60 * 60 * 24) + 1
+            (date1 - date2) / (1000 * 60 * 60 * 24) + 1,
           );
           updatedForm.Notice_Period_Days = diffInDays;
         }
@@ -172,7 +172,7 @@ const AddWithdrawal = () => {
               </option>
               {data?.EmpDetails.map((val, index) => (
                 <option key={val.Employee_ID} value={val.Employee_ID}>
-                  {val.Employee_ID} ({val.Employee_Code}) - {val.Employee_Name}
+                  ({val.Employee_Code}) - {val.Employee_Name}
                 </option>
               ))}
             </select>

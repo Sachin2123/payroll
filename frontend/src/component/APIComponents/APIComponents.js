@@ -1,7 +1,7 @@
-import { Button, Divider, Typography } from "@mui/material";
+import { Button, Divider, Typography, Box, TextField } from "@mui/material";
 
 // Button
-export const ButtonComponent = ({ sx, children, ...rest }) => {
+export const ButtonComp = ({ sx, children, ...rest }) => {
   return (
     <Button {...rest} sx={{ bgcolor: "#111827", color: "white", ...sx }}>
       {children || "Click Me"}
@@ -10,11 +10,18 @@ export const ButtonComponent = ({ sx, children, ...rest }) => {
 };
 
 // Typography
-export const TypographyComponent = () => {
-  return <Typography></Typography>;
+export const TypographyComp = ({ sx, children, ...rest }) => {
+  return <Typography {...rest} sx={{ ...sx }}></Typography>;
 };
 
 // Divider
-export const DividerComponent = ({ sx, children, ...rest }) => {
+export const DividerComp = ({ sx, children, ...rest }) => {
   return <Divider {...rest} sx={{ ...sx }}></Divider>;
+};
+// Divider
+export const BoxComp = ({ sx, children, ...rest }) => {
+  return <Box {...rest} sx={{ ...sx }}></Box>;
+};
+export const TextFieldComp = ({ sx, children, ...rest }) => {
+  return <TextField {...rest} sx={{ ...sx }}></TextField>;
 };

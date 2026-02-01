@@ -47,7 +47,7 @@ const AddSalaryStructure = () => {
         Effective_From,
         Payhead_ID: Number(Payhead_ID),
         Amount: Number(Amount),
-      })
+      }),
     );
 
     setForm(ConvertedData);
@@ -56,7 +56,7 @@ const AddSalaryStructure = () => {
     try {
       const res = await Axios.post(
         "add-salary-structure",
-        JSON.stringify(ConvertedData)
+        JSON.stringify(ConvertedData),
       );
 
       const result = await res.data; // Read server response
